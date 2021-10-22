@@ -4,7 +4,6 @@ const {check} = require('express-validator');
 const Auth = require('../controllers/auth');
 const Password = require('../controllers/password');
 const validate = require('../middlewares/validate');
-require('../middlewares/googleAuth');
 const passport = require('passport');
 
 const router = express.Router();
@@ -40,5 +39,6 @@ router.post('/reset/:token', [
 
 router.post('/googlelogin',Auth.googlelogin);
 router.post('/googlesignup',Auth.googlesignup);
+
 
 module.exports = router;

@@ -51,7 +51,7 @@ exports.googlelogin = (req,res) => {
         audience: process.env.GOOGLE_CLIENT_ID
     }).then(async response => {
         const {email_verified,email,name} = response.payload;
-        if(email_verified){
+       
             const user = await User.findOne({email})
                 .exec((err,user) => {
                 if(err){
@@ -64,16 +64,15 @@ exports.googlelogin = (req,res) => {
                             // Login successful, write token, and send back user
                             res.status(200).json({token: user.generateJWT(), user: user});
                         } catch (error) {
-                            res.status(500).json({message: error.message})
+                            res.status(400).json({message: error.message})
                         }
                     } else {
-                        res.status(200).json({message: "Please reguster your gmail account."})
-                        console.log("Please reguster your gmail account.");
+                        res.status(400).json({message: "Please register your gmail account."})
                         
                     }
                 }
             })
-        }
+        
     })
 
 }
@@ -82,12 +81,13 @@ exports.googlelogin = (req,res) => {
 // @access Public
 exports.register = async (req, res) => {
     try {
-        const { email } = req.body;
-
+        let success = false;
+        const { email,password, confirmPassword } = req.body;
+        if(password!=confirmPassword) return res.status(422).json({success, message: "Password doesn't match"})
         // Make sure this account doesn't already exist
         const user = await User.findOne({ email });
 
-        if (user) return res.status(401).json({message: 'The email address you have entered is already associated with another account.'});
+        if (user) return res.status(400).json({success,message: 'The email address you have entered is already associated with another account.'});
 
         const newUser = new User({ ...req.body});
 
@@ -96,7 +96,7 @@ exports.register = async (req, res) => {
         await sendVerificationEmail(user_, req, res);
 
     } catch (error) {
-        res.status(500).json({success: false, message: error.message})
+        res.status(422).json({success:false , message: error.message})
     }
 };
 
@@ -105,20 +105,27 @@ exports.register = async (req, res) => {
 // @access Public
 exports.login = async (req, res) => {
     try {
+        let success = false;
         const { email, password } = req.body;
+    
         const user = await User.findOne({ email });
-        if (!user) return res.status(401).json({msg: 'The email address ' + email + ' is not associated with any account. Double-check your email address and try again.'});
+        if (!user) return res.status(400).json({success,msg: 'The email address ' + email + ' is not associated with any account. Double-check your email address and try again.'});
 
         //validate password
         if (!user.comparePassword(password)) return res.status(401).json({message: 'Invalid email or password'});
 
         // Make sure the user has been verified
-        if (!user.isVerified) return res.status(401).json({ type: 'not-verified', message: 'Your account has not been verified.' });
-
+        if (!user.isVerified) return res.status(400).json({success, type: 'not-verified', message: 'Your account has not been verified.' });
+        let token =  user.generateJWT()
+        // res.cookie("jwtoken",token, {
+        //     expires: new Date(Date.now()+25892000000),
+        //     httpOnly: true
+        // });
         // Login successful, write token, and send back user
-        res.status(200).json({token: user.generateJWT(), user: user});
+        success = true;
+        res.status(200).json({success,token , user: user});
     } catch (error) {
-        res.status(500).json({message: error.message})
+        res.status(401).json({message: error.message})
     }
 };
 
@@ -190,8 +197,8 @@ async function sendVerificationEmail(user, req, res){
         let subject = "Account Verification Token";
         let to = user.email;
         let from = process.env.FROM_EMAIL;
-        let link="http://"+req.headers.host+"/api/auth/verify/"+token.token;
-        let html = `<p>Hi ${user.username}<p><br><p>Please click on the following <a href="${link}">link</a> to verify your account.</p> 
+        let link="http://"+req.headers.host+"/auth/verify/"+token.token;
+        let html = `<p>Hi ${user.name}<p><br><p>Please click on the following <a href="${link}">link</a> to verify your account.</p> 
                   <br><p>If you did not request this, please ignore this email.</p>`;
 
         await sendEmail({to, from, subject, html});

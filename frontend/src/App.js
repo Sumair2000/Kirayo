@@ -7,18 +7,34 @@ import {
 import { Navbar } from './Components/Navbar';
 import { Login } from './Components/Login';
 import {SignUp} from './Components/SignUp';
-
+import {useState} from 'react';
+import {Alert} from './Components/Alert';
+import { ForgotPassword } from './Components/ForgotPassword';
 function App() {
+  const [alert, setalert] = useState(null);
+  const showAlert = (message,type) => {
+    setalert({
+      msg: message,
+      type: type
+    })
+    setTimeout(()=>{
+      setalert(null);
+    },1500);
+  }
   return (
     <div>
       <Router>
-      <Navbar/>
+      <Navbar showAlert={showAlert}/>
+      <Alert alert={alert}/>
       <Switch>
           <Route exact path="/login">
-            <Login/>
+            <Login showAlert={showAlert}/>
           </Route>
           <Route exact path="/signup">
-            <SignUp/>
+            <SignUp showAlert={showAlert} />
+          </Route>
+          <Route exact path="/forgotPassword">
+            <ForgotPassword showAlert={showAlert} />
           </Route>
         </Switch>
       </Router>

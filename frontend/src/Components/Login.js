@@ -1,51 +1,94 @@
-import React from "react";
+import React, { useState } from "react";
 import GoogleLogin from "react-google-login";
 import axios from "axios";
+import {  Link,useHistory } from "react-router-dom";
 
-export const Login = () => {
+export const Login = (props) => {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  
   const responseSuccessGoogle = (response) => {
     axios({
       method: "POST",
-      url: "http://localhost:5000/auth/googlelogin",
+      url: "/auth/googlelogin",
       data: { email: response.email, tokenId: response.tokenId },
-    }).then((response) => {
-      console.log("Google Login Success! ", response);
-    });
+    }).then((res) => {
+      localStorage.setItem("token",res.data.token);
+      history.push("/");
+      props.showAlert("Account Login Successfully", "success")
+    }).catch(err => {
+      props.showAlert("Please register your gmail account", "danger")
+    })
   };
   const responseErrorGoogle = (response) => {
     console.log(response);
   };
+  const history = useHistory();
+  
+  const loginUser = async (e) => {
+    e.preventDefault();
+    axios({
+      method: "POST",
+      url: "/auth/login",
+      data: {email,password}
+    }).then(res => {
+      localStorage.setItem("token",res.data.token);
+      history.push("/");
+      props.showAlert("Account Login Successfully", "success")
+    }).catch(err => {
+      props.showAlert("Inavlid credentials" , "danger")
+    })
+  }
+
   return (
     <>
       <div>
-      <form>
+        <form className="login-form my-2" method="POST" name="login-form" id="login-form">
+          <h3>Log in</h3>
 
-<h3>Log in</h3>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              className="form-control"
+              value={email}
+              placeholder="Enter email"
+              required
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
+          </div>
 
-<div className="form-group">
-    <label>Email</label>
-    <input type="email" className="form-control" placeholder="Enter email" />
-</div>
+          <div className="form-group my-2">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              className="form-control"
+              value={password}
+              placeholder="Enter password"
+              required minLength={5}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+          </div>
 
-<div className="form-group">
-    <label>Password</label>
-    <input type="password" className="form-control" placeholder="Enter password" />
-</div>
-
-<div className="form-group">
-    <div className="custom-control custom-checkbox">
-        <input type="checkbox" className="custom-control-input" id="customCheck1" />
-        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
-    </div>
-</div>
-
-<button type="submit" className="btn btn-dark btn-lg btn-block">Sign in</button>
-<p className="forgot-password text-right">
-     <a href="#">Forgot password?</a>
-</p>
-</form>
-      </div>
-      <div>
+          <button
+            type="submit"
+            className="btn btn-dark btn-lg btn-block my-2"
+            onClick={loginUser}
+          >
+            Log In
+          </button>
+          <p>
+            <Link to='/forgotPassword'>Forgot password?</Link>
+          </p>
+          <div>
         <GoogleLogin
           clientId="493331810212-gpft07rmnm206mrr65hhm301drlpet63.apps.googleusercontent.com"
           buttonText="Login With Google "
@@ -54,6 +97,9 @@ export const Login = () => {
           cookiePolicy={"single_host_origin"}
         />
       </div>
+        </form>
+      </div>
+      
     </>
   );
 };
