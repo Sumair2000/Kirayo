@@ -43,11 +43,10 @@ export const SignUp = (props) => {
       url: "/auth/register",
       data: {name,email,password,confirmPassword}
     }).then(response => {
-      console.log("Registered Success! ", response);
-      history.push('/');
+      history.push('/login');
       props.showAlert("Please verify your email address", "success")
     }).catch(err => {
-      props.showAlert("Invalid Credentials", "danger")
+      props.showAlert("Please fill the fields correctlty", "danger")
     })
   } 
   return (

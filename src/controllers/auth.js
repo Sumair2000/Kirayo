@@ -7,6 +7,7 @@ require('dotenv').config()
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
+// @route POST auth/googlesignup
 exports.googlesignup = (req,res) => {
     const { email, tokenId } = req.body;
     client.verifyIdToken({
@@ -44,6 +45,7 @@ exports.googlesignup = (req,res) => {
     })
 }
 
+// @route POST auth/googlelogin
 exports.googlelogin = (req,res) => {
     const { email, tokenId } = req.body;
     client.verifyIdToken({
@@ -100,7 +102,7 @@ exports.register = async (req, res) => {
     }
 };
 
-// @route POST api/auth/login
+// @route POST auth/login
 // @desc Login user and return JWT token
 // @access Public
 exports.login = async (req, res) => {
@@ -117,21 +119,18 @@ exports.login = async (req, res) => {
         // Make sure the user has been verified
         if (!user.isVerified) return res.status(400).json({success, type: 'not-verified', message: 'Your account has not been verified.' });
         let token =  user.generateJWT()
-        // res.cookie("jwtoken",token, {
-        //     expires: new Date(Date.now()+25892000000),
-        //     httpOnly: true
-        // });
-        // Login successful, write token, and send back user
+
         success = true;
         res.status(200).json({success,token , user: user});
     } catch (error) {
         res.status(401).json({message: error.message})
     }
+    
 };
 
 
 // ===EMAIL VERIFICATION
-// @route GET api/verify/:token
+// @route GET auth/verify/:token
 // @desc Verify token
 // @access Public
 exports.verify = async (req, res) => {
@@ -162,7 +161,7 @@ exports.verify = async (req, res) => {
     }
 };
 
-// @route POST api/resend
+// @route POST auth/resend
 // @desc Resend Verification Token
 // @access Public
 exports.resendToken = async (req, res) => {

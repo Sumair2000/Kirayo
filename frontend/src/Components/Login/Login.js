@@ -71,7 +71,8 @@ export const Login = (props) => {
               className="form-control"
               value={password}
               placeholder="Enter password"
-              required minLength={5}
+              required minLength={6}
+              autoComplete="true"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
@@ -86,7 +87,7 @@ export const Login = (props) => {
             Log In
           </button>
           <p>
-            <Link to='/forgotPassword'>Forgot password?</Link>
+            <Link to="/login" onClick={()=> window.open("/forgotPassword", "_blank")}>Forgot password?</Link>
           </p>
           <div>
         <GoogleLogin

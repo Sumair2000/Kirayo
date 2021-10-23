@@ -9,7 +9,7 @@ export const Navbar = (props) => {
     props.showAlert("Logout Successfully", "success")
   }
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           Kirayo
@@ -32,18 +32,18 @@ export const Navbar = (props) => {
             placeholder="Search"
             aria-label="Search"
           />
-          <button className="btn btn-outline-success mx-2" type="submit">
+          <button className="btn btn-success mx-2" type="submit">
             Search
           </button>
 
           {!localStorage.getItem('token') ? <form className="d-flex">
-            <Link className="nav-link active" aria-current="page" to="/login">
+            <Link className="login-link mx-2" style={{ color: '#FFF' }} aria-current="page" to="/login">
               Login
             </Link>
-            <Link className="nav-link active" aria-current="page" to="/signup">
+            <Link className="signup-link mx-2" style={{ color: '#FFF' }} aria-current="page" to="/signup">
               Signup
             </Link>
-          </form>: <button onClick={handleLogout}className="btn btn-primary">
+          </form>: <button onClick={handleLogout} className="btn btn-primary">
             Logout
           </button>}
         </div>
