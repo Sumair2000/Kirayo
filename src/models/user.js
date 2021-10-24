@@ -39,6 +39,10 @@ const UserSchema = new mongoose.Schema({
     resetPasswordExpires: {
         type: Date,
         required: false
+    },
+    isGoogleAccount: {
+        type: Boolean,
+        default: false
     }
 }, {timestamps: true});
 
@@ -76,7 +80,7 @@ UserSchema.methods.generateJWT = function() {
     };
 
     return jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: parseInt(expirationDate.getTime() / 1000, 10)
+        expiresIn: '60m'
     });
 };
 

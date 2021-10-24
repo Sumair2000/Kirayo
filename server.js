@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const passport = require("passport");
 const path = require("path");
-const session = require('express-session')
 
 // Setting up port
 const connUri = process.env.MONGO_LOCAL_CONN_URL;
@@ -14,11 +13,7 @@ let PORT = process.env.PORT || 5000;
 //=== 1 - CREATE APP
 // Creating express app and configuring middleware needed for authentication
 const app = express();
-app.use(session({
-    secret: process.env.SECRET
-}))
 app.use(passport.initialize());
-app.use(passport.session());
 app.use(cors());
 
 // for parsing application/json

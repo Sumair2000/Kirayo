@@ -2,12 +2,25 @@ import React, { useState } from "react";
 import GoogleLogin from "react-google-login";
 import axios from "axios";
 import {  Link,useHistory } from "react-router-dom";
+import {useDispatch} from 'react-redux';
+import { loginUser } from '../../Actions/authAction';
 
 export const Login = (props) => {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  
+  const dispatch = useDispatch();
+  const [userInfo, setuserInfo] = useState({
+    email: "",
+    password: "",
+  });
+
+  let name, value;
+  const handleInputs = (e) => {
+    console.log(e);
+    name = e.target.name;
+    value = e.target.value;
+
+    setuserInfo({...userInfo,[name]: value})
+  };
   
   const responseSuccessGoogle = (response) => {
     axios({
@@ -22,24 +35,15 @@ export const Login = (props) => {
       props.showAlert("Please register your gmail account", "danger")
     })
   };
+
   const responseErrorGoogle = (response) => {
     console.log(response);
   };
   const history = useHistory();
   
-  const loginUser = async (e) => {
+  const login = async (e) => {
     e.preventDefault();
-    axios({
-      method: "POST",
-      url: "/auth/login",
-      data: {email,password}
-    }).then(res => {
-      localStorage.setItem("token",res.data.token);
-      history.push("/");
-      props.showAlert("Account Login Successfully", "success")
-    }).catch(err => {
-      props.showAlert("Inavlid credentials" , "danger")
-    })
+    dispatch(loginUser(userInfo,history,props.showAlert));
   }
 
   return (
@@ -54,12 +58,10 @@ export const Login = (props) => {
               type="email"
               name="email"
               className="form-control"
-              value={email}
+              value={userInfo.email}
               placeholder="Enter email"
               required
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              onChange={handleInputs}
             />
           </div>
 
@@ -69,20 +71,18 @@ export const Login = (props) => {
               type="password"
               name="password"
               className="form-control"
-              value={password}
+              value={userInfo.password}
               placeholder="Enter password"
               required minLength={6}
               autoComplete="true"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              onChange={handleInputs}
             />
           </div>
 
           <button
             type="submit"
             className="btn btn-dark btn-lg btn-block my-2"
-            onClick={loginUser}
+            onClick={login}
           >
             Log In
           </button>

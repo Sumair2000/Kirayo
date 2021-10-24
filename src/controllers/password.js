@@ -9,7 +9,7 @@ exports.recover = async (req, res) => {
         const { email } = req.body;
 
         const user = await User.findOne({ email });
-
+        if(user.isGoogleAccount) return res.status(400).json({message: "This account is associated with google"});
         if (!user) return res.status(400).json({ message: 'The email address ' + req.body.email + ' is not associated with any account. Double-check your email address and try again.'});
 
         //Generate and set password reset token

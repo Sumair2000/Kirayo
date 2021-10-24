@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import GoogleLogin from "react-google-login";
 import axios from "axios";
 import {  useHistory } from "react-router-dom";
+import { signupUser } from '../../Actions/authAction'; 
+import {useDispatch} from 'react-redux';
 
 export const SignUp = (props) => {
   const responseSuccessGoogle = (response) => {
@@ -18,6 +20,8 @@ export const SignUp = (props) => {
   const responseErrorGoogle = (response) => {
     console.log(response);
   };
+  
+  const dispatch = useDispatch();
   const history = useHistory();
   const [user,setUser] = useState({
     name: "",
@@ -37,17 +41,9 @@ export const SignUp = (props) => {
   const registerUser = async (e) => {
     e.preventDefault();
 
-    const { name, email, password,confirmPassword } = user;
-    axios({
-      method: "POST",
-      url: "/auth/register",
-      data: {name,email,password,confirmPassword}
-    }).then(response => {
-      history.push('/login');
-      props.showAlert("Please verify your email address", "success")
-    }).catch(err => {
-      props.showAlert("Please fill the fields correctlty", "danger")
-    })
+    dispatch(
+      signupUser(user,history,props.showAlert));
+    
   } 
   return (
     <>
