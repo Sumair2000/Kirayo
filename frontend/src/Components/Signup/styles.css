@@ -1,0 +1,13 @@
+.google-login {
+  display: block;
+  margin: 0 auto;
+  margin-left: 100px;
+}
+
+.paper {
+    max-width: fit-content;
+    align-content: center;
+    margin-left: 33rem;
+    padding-top: 0.2px;
+    padding-bottom: 20px;
+}
