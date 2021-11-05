@@ -15,3 +15,13 @@ export const signup = (signupData) =>  {
     data: signupData
   })
 }
+
+export const getUserDetails = (id) => {
+  return axios({
+    method: "GET",
+    url: `/user/${id}`,
+    headers: {
+      "Authorization": `Bearer ${localStorage.getItem('token')}`
+    }
+  })
+}

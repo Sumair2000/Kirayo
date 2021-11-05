@@ -52,6 +52,7 @@ require("./src/middlewares/jwt")(passport);
 //Configure Route
 app.use('/auth', require('./src/routes/auth'));
 app.use('/user', require('./src/middlewares/authenticate'), require('./src/routes/user'));
+app.use('/product',require('./src/routes/product'))
 
 
 //=== 5 - START SERVER

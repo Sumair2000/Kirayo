@@ -4,6 +4,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import decode from "jwt-decode";
 import { Dropdown } from "react-bootstrap";
 export const Navbar = (props) => {
+  
   const [name, setname] = useState("");
   const [user, setuser] = useState(localStorage.getItem("token"));
   let history = useHistory();
@@ -34,28 +35,18 @@ export const Navbar = (props) => {
         <Link className="navbar-brand" to="/">
           Kirayo
         </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
+        <form className="d-flex">
+        <input
+          className="form-control"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button className="btn btn-success mx-2" type="submit">
+          Search
         </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <input
-            className="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button className="btn btn-success mx-2" type="submit">
-            Search
-          </button>
-
+        </form>
+        <div className="d-flex mx-1">
           {!localStorage.getItem("token") ? (
             <form className="d-flex">
               <Link
@@ -63,6 +54,7 @@ export const Navbar = (props) => {
                 style={{ color: "#FFF" }}
                 aria-current="page"
                 to="/login"
+                target="_parent"
               >
                 Login
               </Link>
@@ -71,22 +63,36 @@ export const Navbar = (props) => {
                 style={{ color: "#FFF" }}
                 aria-current="page"
                 to="/signup"
+                target="_parent"
               >
                 Signup
               </Link>
             </form>
           ) : (
-            <Dropdown>
-              <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                {name}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-2">Edit Profile</Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <>
+              <form className="d-flex">
+                <Link
+                  className="signup-link mx-4 my-1"
+                  style={{ color: "#FFF" }}
+                  aria-current="page"
+                  to="/addPost"
+                >
+                  Add Post
+                </Link>
+                <Dropdown>
+                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                    {name}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="#/action-2">
+                      Edit Profile
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </form>
+            </>
           )}
         </div>
       </div>

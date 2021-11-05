@@ -1,11 +1,45 @@
 import React, { useState } from "react";
 import GoogleLogin from "react-google-login";
 import axios from "axios";
-import {  Link,useHistory } from "react-router-dom";
-import {useDispatch} from 'react-redux';
-import { loginUser } from '../../Actions/authAction';
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../Actions/authAction";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Paper } from '@mui/material';
+import "./login.css";
 
-export const Login = (props) => {
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://kirayo.com/">
+        Kirayo
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
+
+const theme = createTheme();
+
+export default function Login(props) {
 
   const dispatch = useDispatch();
   const [userInfo, setuserInfo] = useState({
@@ -19,88 +53,130 @@ export const Login = (props) => {
     name = e.target.name;
     value = e.target.value;
 
-    setuserInfo({...userInfo,[name]: value})
+    setuserInfo({ ...userInfo, [name]: value });
   };
-  
+
   const responseSuccessGoogle = (response) => {
     axios({
       method: "POST",
       url: "/auth/googlelogin",
       data: { email: response.email, tokenId: response.tokenId },
-    }).then((res) => {
-      localStorage.setItem("token",res.data.token);
-      history.push("/");
-      props.showAlert("Account Login Successfully", "success")
-    }).catch(err => {
-      props.showAlert("Please register your gmail account", "danger")
     })
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        history.push("/");
+        props.showAlert("Account Login Successfully", "success");
+      })
+      .catch((err) => {
+        props.showAlert("Please register your gmail account", "danger");
+      });
   };
 
   const responseErrorGoogle = (response) => {
     console.log(response);
   };
   const history = useHistory();
-  
-  const login = async (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUser(userInfo,history,props.showAlert));
-  }
+    dispatch(loginUser(userInfo, history, props.showAlert));
+  };
 
   return (
-    <>
-      <div>
-        <form className="login-form my-2" method="POST" name="login-form" id="login-form">
-          <h3>Log in</h3>
-
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              className="form-control"
-              value={userInfo.email}
-              placeholder="Enter email"
-              required
-              onChange={handleInputs}
-            />
-          </div>
-
-          <div className="form-group my-2">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              className="form-control"
-              value={userInfo.password}
-              placeholder="Enter password"
-              required minLength={6}
-              autoComplete="true"
-              onChange={handleInputs}
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="btn btn-dark btn-lg btn-block my-2"
-            onClick={login}
+    <ThemeProvider theme={theme}>
+      <Paper className="paper" elevation={5}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
           >
-            Log In
-          </button>
-          <p>
-            <Link to="/login" onClick={()=> window.open("/forgotPassword", "_blank")}>Forgot password?</Link>
-          </p>
-          <div>
-        <GoogleLogin
-          clientId="493331810212-gpft07rmnm206mrr65hhm301drlpet63.apps.googleusercontent.com"
-          buttonText="Login With Google "
-          onSuccess={responseSuccessGoogle}
-          onFailure={responseErrorGoogle}
-          cookiePolicy={"single_host_origin"}
-        />
-      </div>
-        </form>
-      </div>
-      
-    </>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              value={userInfo.email}
+              autoComplete="email"
+              autoFocus
+              onChange={handleInputs}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={userInfo.password}
+              onChange={handleInputs}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link
+                  className="fogotPassword-link"
+                  onClick={() => window.open("/forgotPassword", "_blank")}
+                  variant="body2"
+                >
+                  {"Forgot password?"}
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link
+                  className="signup-link"
+                  to="/signup"
+                  onClick={() => window.open("/signup", "_parent")}
+                  variant="body2"
+                >
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+            <Divider variant="middle" sx={{ m: 2 }}>
+              OR
+            </Divider>
+            <GoogleLogin
+              className="google-login"
+              theme="dark"
+              clientId="493331810212-gpft07rmnm206mrr65hhm301drlpet63.apps.googleusercontent.com"
+              buttonText="Login With Google "
+              onSuccess={responseSuccessGoogle}
+              onFailure={responseErrorGoogle}
+              cookiePolicy={"single_host_origin"}
+            />
+          </Box>
+        </Box>
+      </Container>
+      </Paper>
+      <Copyright sx={{ mt: 8, mb: 4 }} />
+    </ThemeProvider>
   );
-};
+}
