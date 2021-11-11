@@ -23,7 +23,7 @@ export const Product = ({ product }) => {
 
   return (
     // <ButtonBase component="span" onClick={detailProduct}>
-    <Card sx={{ maxWidth: "100%" }} style={{margin: "20px"}} elevation={2}>
+    <Card sx={{ maxWidth: "100%" }} style={{margin: "20px", paddingLeft: "0", paddingRight: "0"}} elevation={2}>
       
         <CardHeader
           avatar={
