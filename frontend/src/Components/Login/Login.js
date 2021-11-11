@@ -28,7 +28,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://kirayo.com/">
+      <Link color="inherit" href="http://localhost:3000/">
         Kirayo
       </Link>{" "}
       {new Date().getFullYear()}
@@ -84,7 +84,7 @@ export default function Login(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Paper className="paper" elevation={5}>
+      <Paper className="paper" style={{ margin: "auto" , marginTop: "40px"}} elevation={5}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

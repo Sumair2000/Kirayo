@@ -53,6 +53,7 @@ require("./src/middlewares/jwt")(passport);
 app.use('/auth', require('./src/routes/auth'));
 app.use('/user', require('./src/middlewares/authenticate'), require('./src/routes/user'));
 app.use('/product',require('./src/routes/product'))
+app.use('/uploads', express.static('uploads'));
 
 
 //=== 5 - START SERVER

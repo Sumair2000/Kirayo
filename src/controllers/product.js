@@ -24,7 +24,7 @@ exports.getProducts = async function (req, res) {
   }
 };
 
-exports.uploadImage = async function (req, res) {
+exports.uploadImage =  function (req, res) {
   upload(req, res, (err) => {
     if (err) {
       return res.json({ success: false, err });
@@ -44,9 +44,9 @@ exports.uploadProduct = async function (req, res) {
 
     await product.save();
 
-    res.status(201).json(product);
+    return res.status(200).json({ success: true })
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    return res.status(400).json({ success: false, err })
   }
 };
 

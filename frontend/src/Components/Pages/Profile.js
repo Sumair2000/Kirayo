@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar1 from '../Navbar/Navbar1'
+import Navbar from '../Navbar/Navbar'
 import {  useSelector} from 'react-redux'
 import {EditProfile} from "../EditProfile/EditProfile"
 
@@ -7,7 +7,7 @@ const Profile = (props) => {
   
   return (
     <div>
-      <Navbar1 showAlert={props.showAlert}/>
+      <Navbar showAlert={props.showAlert}/>
       <EditProfile/>
     </div>
   )

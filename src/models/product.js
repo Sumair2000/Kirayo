@@ -6,6 +6,10 @@ const productSchema = mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Users'
   },
+  userName: {
+    type: String,
+    required: true
+  },
   title: {
     type: String,
     required: true
@@ -23,19 +27,18 @@ const productSchema = mongoose.Schema({
     default: 0,
     required: true
   },
-  perGiven: {
+  rentType: {
     type: String,
     required: true
   },
   images: {
-    type: String,
-    required: true
+    type: Array,
+    default: []
   },
   phoneNumber: {
-    type: Number,
-    required: true
+    type: String
   },
-  Address: {
+  address: {
     type: String
   }
 

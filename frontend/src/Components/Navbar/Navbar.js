@@ -2,100 +2,161 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useHistory, useLocation } from "react-router-dom";
 import decode from "jwt-decode";
-import { Dropdown } from "react-bootstrap";
-export const Navbar = (props) => {
-  
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import SearchIcon from "@mui/icons-material/Search";
+import { deepPurple } from '@mui/material/colors';
+import UploadIcon from '@mui/icons-material/Upload';
+
+import {Search, SearchIconWrapper, StyledInputBase} from "./styles"
+
+import { Menu,Avatar , IconButton , MenuItem, Divider } from "@mui/material";
+
+
+export default function Navbar(props) {
+
+  const [Id,setId] = useState(0);
   const [name, setname] = useState("");
   const [user, setuser] = useState(localStorage.getItem("token"));
   let history = useHistory();
   const location = useLocation();
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    history.push("/login");
-    setname("");
-    props.showAlert("Logout Successfully", "success");
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  useEffect(() => {
-    const token = user;
-    if (token) {
-      const { exp, name } = decode(token);
-      setname(name);
-      if (Date.now() >= exp * 1000) {
-        handleLogout();
-      }
-    }
-    setuser(localStorage.getItem("token"));
-  }, [location]);
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-  return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
-          Kirayo
-        </Link>
-        <form className="d-flex">
-        <input
-          className="form-control"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button className="btn btn-success mx-2" type="submit">
-          Search
-        </button>
-        </form>
-        <div className="d-flex mx-1">
-          {!localStorage.getItem("token") ? (
-            <form className="d-flex">
-              <Link
-                className="login-link mx-2"
-                style={{ color: "#FFF" }}
-                aria-current="page"
-                to="/login"
-                target="_parent"
-              >
-                Login
-              </Link>
-              <Link
-                className="signup-link mx-2"
-                style={{ color: "#FFF" }}
-                aria-current="page"
-                to="/signup"
-                target="_parent"
-              >
-                Signup
-              </Link>
-            </form>
-          ) : (
-            <>
-              <form className="d-flex">
-                <Link
-                  className="signup-link mx-4 my-1"
-                  style={{ color: "#FFF" }}
-                  aria-current="page"
-                  to="/addPost"
+    const handleLogout = () => {
+      localStorage.removeItem("token");
+      history.push("/");
+      setname("");
+      props.showAlert("Logout Successfully", "success");
+    };
+
+
+    useEffect(() => {
+      const token = user;
+      if (token) {
+        const { exp, name, id } = decode(token);
+        setId(id)
+        setname(name);
+        if (Date.now() >= exp * 1000) {
+          handleLogout();
+        }
+      }
+      setuser(localStorage.getItem("token"));
+    }, [location]);
+
+    return (
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="fixed" style={{ backgroundColor: '#475FCB'}}>
+          <Toolbar>
+            <Link to="/" style={{ color: "#475FCB" }}> 
+            <Typography
+              fontFamily="Bubblegum Sans"
+              // fontFamily="Fruktur"
+              variant="h4"
+              noWrap
+              component="div"
+              sx={{ display: { xs: "none", sm: "block" } }}
+              cursor="pointer"
+              color="#E6EEF0"
+            > 
+              Kirayo
+            </Typography>
+            </Link>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+            <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              {!localStorage.getItem("token") ? (
+                <>
+                  {/* <Button className="mx-2" style={{color: "#475FCB", backgroundColor: "#F2F2F2" }} variant="contained" > */}
+                    <Link
+                      className="login-link mx-3 my-1"
+                      style={{ color: "#F2F2F2" }}
+                      aria-current="page"
+                      to="/login"
+                      target="_parent"
+                    >
+                      LOGIN
+                    </Link>
+                  {/* </Button> */}
+                  <Button className="mx-2" style={{color: "#475FCB", backgroundColor: "#F2F2F2" }} variant="contained" >
+                    <Link
+                      className="signup-link"
+                      style={{ color: "#475FCB" }}
+                      aria-current="page"
+                      to="/signup"
+                      target="_parent"
+                    > 
+                      Signup
+                    </Link>
+                  </Button>
+                </>
+              ) : (
+                <>
+                <Button className="mx-4 my-1" style={{color: "#475FCB", backgroundColor: "#F2F2F2" }} >
+                    <Link
+                      className="signup-link"
+                      style={{ color: "#475FCB", fontWeight: "bold" ,textDecoration: "none" }}
+                      aria-current="page"
+                      to="/product/upload"
+                      target="_parent"
+                    > 
+                      <UploadIcon className="my-1"/>rent things
+                    </Link>
+                  </Button>
+                <IconButton
+                  size="small"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  style={{color: "#E6EEF0", backgroundColor: "#475FCB"}}
                 >
-                  Add Post
-                </Link>
-                <Dropdown>
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                    {name}
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-2">
-                      Edit Profile
-                    </Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </form>
-            </>
-          )}
-        </div>
-      </div>
-    </nav>
-  );
-};
+                  {name} <Avatar className="mx-2" sx={{ bgcolor: deepPurple[500] }}>{name[0]}</Avatar> 
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}>
+                <Link to={`/viewProfile/${Id}`} style={{color: "#475FCB", textDecoration: "none"}} target="_parent">
+                  <MenuItem >View Profile</MenuItem>
+                  </Link>
+                  <Divider/>
+                  <MenuItem onClick={handleLogout} style={{color: "#475FCB"}}>Logout</MenuItem>
+                </Menu>
+                </>
+              )}
+            </Box>
+          </Toolbar>
+        </AppBar>
+      </Box>
+    );
+  }

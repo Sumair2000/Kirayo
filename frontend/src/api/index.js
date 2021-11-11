@@ -25,3 +25,10 @@ export const getUserDetails = (id) => {
     }
   })
 }
+
+export const fetchPosts = () => {
+  return axios({
+    method: "GET",
+    url: "/product/getProducts"
+  })
+}
