@@ -153,14 +153,11 @@ export const UploadProduct = (props) => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value="Cars">Cars</MenuItem>
-              <MenuItem value="Cameras & Lenses">Cameras & Lenses</MenuItem>
-              <MenuItem value="Computers & Laptops">
-                Computers & Laptops
-              </MenuItem>
-              <MenuItem value="Mobile Phones">Mobile Phones</MenuItem>
-              <MenuItem value="Motorcycles">Motorcycles</MenuItem>
-              <MenuItem value="Tablets">Tablets</MenuItem>
+              <MenuItem value="Tools">Tools</MenuItem>
+              <MenuItem value="Apparels">Apparels</MenuItem>
+              <MenuItem value="Vehicles">Vehicles</MenuItem>
+              <MenuItem value="Equipments">Equipments</MenuItem>
+              <MenuItem value="Footwear">Footwear</MenuItem>
             </Select>
           </FormControl>
           <br />

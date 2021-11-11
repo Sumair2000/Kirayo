@@ -18,21 +18,19 @@ function Banner() {
             >
               {" "}
               <option value="null">ALL CATEGORIES</option>
-              <option value="Cars">Cars</option>
-              <option value="Cameras & Lenses">Cameras & Lenses</option>
-              <option value="Computers & Laptops">Computers & Laptops</option>
-              <option value="Mobile Phones">Mobile Phones</option>
-              <option value="Motorcycles">Motorcycles</option>
-              <option value="Tablets">Tablets</option>
+              <option value="Tools">Tools</option>
+              <option value="Apparels">Apparels</option>
+              <option value="Vehicles">Vehicles</option>
+              <option value="Equipments">Equipments</option>
+              <option value="Footwear">Footwear</option>
             </select>
           </div>
           <div className="otherQuickOptions">
-            <span onClick={()=>setCategory("Cars")} >Cars</span>
-            <span onClick={()=>setCategory("Cameras & Lenses")} >Cameras & Lenses</span>
-            <span onClick={()=>setCategory("Computers & Laptops")} >Computers & Laptops</span>
-            <span onClick={()=>setCategory("Mobile Phones")} >Mobile Phones</span>
-            <span onClick={()=>setCategory("Motorcycles")} >Motorcycles</span>
-            <span onClick={()=>setCategory("Tablets")} >Tablets</span>
+            <span onClick={()=>setCategory("Tools")} >Tools</span>
+            <span onClick={()=>setCategory("Apparels")} >Apparels</span>
+            <span onClick={()=>setCategory("Vehicles")} >Vehicles</span>
+            <span onClick={()=>setCategory("Equipments")} >Equipments</span>
+            <span onClick={()=>setCategory("Footwear")} >Footwear</span>
           </div>
         </div>
         <Paper elevation={1} >
