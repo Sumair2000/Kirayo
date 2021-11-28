@@ -4,7 +4,7 @@ import "./styles.css";
 
 function Footer() {
   return (
-    <div className="footerParentDiv my-2">
+    <div className="footerParentDiv my-1">
       <div className="content">
         <div>
           <div className="heading">

@@ -78,7 +78,7 @@ export default function SignUp1(props) {
 
   return (
     <ThemeProvider theme={theme}>
-        <Paper className="paper" elevation={5}>
+        <Paper className="paper" elevation={5} style={{marginTop: "90px"}}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -99,6 +99,7 @@ export default function SignUp1(props) {
             <Grid container spacing={2}>
             <Grid item xs={12}>
                 <TextField
+                  variant="standard"
                   required
                   fullWidth
                   id="name"
@@ -111,6 +112,7 @@ export default function SignUp1(props) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  variant="standard"
                   required
                   fullWidth
                   id="email"
@@ -123,6 +125,7 @@ export default function SignUp1(props) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  variant="standard"
                   required
                   fullWidth
                   name="password"
@@ -135,6 +138,7 @@ export default function SignUp1(props) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  variant="standard"
                   required
                   fullWidth
                   name="confirmPassword"

@@ -101,9 +101,10 @@ export const UploadProduct = (props) => {
   };
 
   return (
+    
     <div
       className="parentDiv"
-      style={{ paddingTop: "45px", paddingBottom: "10px" }}
+      style={{marginTop: "70px", paddingBottom: "10px" }}
     >
       <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
@@ -149,6 +150,7 @@ export const UploadProduct = (props) => {
                 setCategory(e.target.value);
               }}
               className="input"
+              style={{display: "flex", alignItems: "center"}}
             >
               <MenuItem value="">
                 <em>None</em>

@@ -45,12 +45,14 @@ export const signupUser = (user,history,showAlert) => async (dispatch) => {
 }
 
 export const getUserDetails = (id) => async (dispatch) => {
+  console.log(id);
   try {
     const { data } = await api.getUserDetails(id);
     dispatch({
       type: DATA_LOADED,
       payload: data 
     })
+    console.log(data);
   } catch (error) {
     console.log(error);
   }

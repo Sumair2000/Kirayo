@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {
   Card,
   CardHeader,
@@ -6,54 +6,65 @@ import {
   CardContent,
   Avatar,
   Typography,
-  ButtonBase
+  CardActions,
+  Button,
 } from "@mui/material";
-  import { Carousel } from 'react-responsive-carousel';
+import {Link } from "react-router-dom";
+import { Carousel } from "react-responsive-carousel";
 import { red } from "@mui/material/colors";
 import moment from "moment";
-import { useHistory } from 'react-router-dom';
-import { ImageSlider } from "./ImageSlider";
+// import { ImageSlider } from "./ImageSlider";
+import  "./styles.css"
 
 export const Product = ({ product }) => {
-
-  const history = useHistory();
-  const detailProduct = (e) => {
-    history.push(`/product/${product._id}`)
-  }
+ 
 
   return (
-    // <ButtonBase component="span" onClick={detailProduct}>
-    <Card sx={{ maxWidth: "100%" }} style={{margin: "20px", paddingLeft: "0", paddingRight: "0"}} elevation={2}>
-      
-        <CardHeader
-          avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              { product.userName.charAt(0).toUpperCase()}
-            </Avatar>
-          }
-          title={product.userName}
-          subheader={moment(product.createdAt).fromNow()}
-        />
-        {/* <img src={`http://localhost:5000/${product.images[0]}`}/> */}
-        <CardMedia
-          component="img"
-          height="190"
-          image={product.images[0]}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h6" color="textSecondary">
-            {product.title}
-          </Typography>
-          <Typography gutterBottom variant="h7"  color="textSecondary">
-            Rs {product.price}
-          </Typography>
-          <Typography gutterBottom variant="h7" color="textSecondary">
-            {" "}
-            Per {product.rentType}
-          </Typography>
-        </CardContent>
-      
+    <Card
+      sx={{ maxWidth: "100%" }}
+      style={{
+        margin: "20px",
+        height: "50vh",
+      }}
+      elevation={2}
+    >
+      <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+            {product.userName.charAt(0).toUpperCase()}
+          </Avatar>
+        }
+        title={product.userName}
+        subheader={moment(product.createdAt).fromNow()}
+      />
+      {/* <img src={`http://localhost:5000/${product.images[0]}`}/> */}
+      {/* <Carousel autoPlay animation="slide" interval={3000}>
+        { product.images.map((image) => ( */}
+            <CardMedia component="img" height="190" image={product.images[0]} />
+          {/* ))
+        }
+      </Carousel> */}
+      <CardContent>
+        <Typography
+          gutterBottom
+          style={{ fontSize: "100%", fontWeight: "bold" }}
+          color="textSecondary"
+        >
+          {product.title}
+        </Typography>
+        <Typography
+          gutterBottom
+          style={{ fontSize: "90%" }}
+          color="textSecondary"
+        >
+          Rs {product.price} Per {product.rentType}
+        </Typography>
+        <CardActions style={{ marginLeft: "220px" }}>
+          <Link to={`/product/${product._id}`} style={{textDecoration: "none"}}>
+            <Button size="small">View</Button>
+          </Link>
+        </CardActions>
+      </CardContent>
     </Card>
-    // </ButtonBase>
   );
 };

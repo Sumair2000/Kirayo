@@ -26,9 +26,16 @@ export const getUserDetails = (id) => {
   })
 }
 
-export const fetchPosts = () => {
+export const fetchPosts = (page) => {
   return axios({
     method: "GET",
-    url: "/product/getProducts"
+    url: `product/getProducts?page=${page}`
+  })
+}
+
+export const getMyPosts = (id) => {
+  return axios({
+    method: "GET",
+    url: `/product/getMyPosts/${id}`
   })
 }

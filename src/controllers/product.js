@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const multer = require("multer");
+const Reservation = require("../models/reservations");
 
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -14,11 +15,29 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single("file");
 
-exports.getProducts = async function (req, res) {
+exports.reserve = async (req,res) => {
   try {
-    const Products = await Product.find();
+    const {userId, productId, isReserved } = req.body;
+    const reserve_  = new Reservation({userId, productId, isReserved });
+    await reserve_.save();
 
-    res.status(200).json(Products);
+    return res.status(200).json({ success: true })
+
+  } catch (error) {
+    res.status(404).json({message: error.message});
+  }
+};
+
+exports.getProducts = async function (req, res) {
+  const {page} = req.query;
+  try {
+    const LIMIT = 8;
+    const startIndex = (Number(page)-1) * LIMIT;
+    const total = await Product.countDocuments({});
+    const Products = await Product.find().sort({_id: -1}).limit(LIMIT).skip(startIndex);
+    // const Products = await Product.find();
+
+    res.status(200).json({data: Products, currentPage: Number(page), numberOfPages: Math.ceil(total/LIMIT)});
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -37,6 +56,18 @@ exports.uploadImage =  function (req, res) {
   });
 };
 
+exports.getMyPosts = async function (req,res) {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const post = await Product.find({userId: id});
+
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(404).json({message: error.message});
+  }
+}
+
 exports.uploadProduct = async function (req, res) {
   try {
     const product = new Product(req.body);
@@ -54,8 +85,8 @@ exports.getProduct = async function (req, res) {
   const { id } = req.params;
   try {
     const product = await Product.findById(id);
-
-    res.status(200).json(product);
+    const reserve = await Reservation.find({productId: id});
+    res.status(200).json({product,reserve});
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -67,6 +98,12 @@ exports.updateProduct = async function (req, res) {
 };
 
 exports.deleteProduct = async function (req, res) {
+  const { id } = req.params;
+  console.log(id);  
   try {
-  } catch (err) {}
+    const product = await Product.findByIdAndDelete(id);
+    res.status(200).json(product);
+  } catch (err) {
+    res.status(404).json({message: err.message});
+  }
 };

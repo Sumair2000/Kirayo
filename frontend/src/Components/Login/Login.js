@@ -84,7 +84,7 @@ export default function Login(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Paper className="paper" style={{ margin: "auto" , marginTop: "40px"}} elevation={5}>
+      <Paper className="paper" style={{ margin: "auto" , marginTop: "100px"}} elevation={5}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -108,6 +108,7 @@ export default function Login(props) {
             sx={{ mt: 1 }}
           >
             <TextField
+              variant="standard"
               margin="normal"
               required
               fullWidth
@@ -120,6 +121,7 @@ export default function Login(props) {
               onChange={handleInputs}
             />
             <TextField
+              variant="standard"
               margin="normal"
               required
               fullWidth
@@ -143,7 +145,7 @@ export default function Login(props) {
               <Grid item xs>
                 <Link
                   className="fogotPassword-link"
-                  onClick={() => window.open("/forgotPassword", "_blank")}
+                  onClick={() => history.push("/forgotPassword")}
                   variant="body2"
                 >
                   {"Forgot password?"}

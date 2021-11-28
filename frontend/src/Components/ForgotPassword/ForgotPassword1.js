@@ -45,7 +45,7 @@ export default function ForgotPassword1() {
 
   return (
     <ThemeProvider theme={theme}>
-        <Paper className="paper" elevation={5}>
+        <Paper className="paper" style={{marginTop: "100px", marginBottom: "23px", paddingLeft: "10px", paddingRight: "10px"}} elevation={5}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -68,13 +68,15 @@ export default function ForgotPassword1() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
+                variant="standard"
                   required
-                  fullWidth
+                  style={{width: "20vw"}}
                   id="email"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
                   value={ email} 
+                  autoFocus
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
@@ -85,13 +87,13 @@ export default function ForgotPassword1() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 5 }}
+              sx={{ mt: 2, mb: 1 }}
             >
               Reset Password
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
+                <Link  variant="body2" onClick={()=> history.push("/login")}>
                   Already have an account? Sign in
                 </Link>
               </Grid>

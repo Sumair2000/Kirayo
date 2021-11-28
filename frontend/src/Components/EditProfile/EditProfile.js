@@ -21,7 +21,7 @@ export const EditProfile = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Paper className="paper my-3"  elevation={5}>
+      <Paper className="paper" style={{marginTop: "85px", marginBottom: "20px"}}  elevation={5}>
       <Container component="main" maxWidth="sm" >
         <CssBaseline />
         <Box
