@@ -39,3 +39,24 @@ export const getMyPosts = (id) => {
     url: `/product/getMyPosts/${id}`
   })
 }
+
+export const getProductByCategory = (cat) => {
+  return axios({
+    method: "GET",
+    url: `/product/?category=${cat}`
+  })
+}
+
+export const getMyReservation = (id) => {
+  return axios({
+    method: "GET",
+    url: `/product/getMyReservation/${id}`
+  })
+}
+
+export const getProductBySearch = (search) => {
+  return axios({
+    method: "GET",
+    url: `/product/search/${search}`
+  })
+}

@@ -65,10 +65,10 @@ export default function Login(props) {
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         history.push("/");
-        props.showAlert("Account Login Successfully", "success");
+        window.alert("Account Login Successfully");
       })
       .catch((err) => {
-        props.showAlert("Please register your gmail account", "danger");
+        window.alert("Please register your gmail account");
       });
   };
 
@@ -79,7 +79,7 @@ export default function Login(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUser(userInfo, history, props.showAlert));
+    dispatch(loginUser(userInfo, history));
   };
 
   return (

@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Alert } from "../Components/Alert";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 // import HomePage from "../Components/Pages/HomePage";
 import Login from "../Components/Login/Login";
 import SignUp1 from "../Components/Signup/SignUp1";
@@ -40,46 +45,40 @@ const MainRoute = () => {
 
   return (
     <Router>
-      <Navbar  />
+      <Navbar />
       <Switch>
-        {/* <Router  exact path="/" component={() => <Redirect to="/products" />}> */}
-        {/* <Banner/>
-            <Products/>    */}
-        {/* <HomePage  showAlert={showAlert} /> */}
-        {/* <Alert alert={alert} /> */}
-        {/* </Router> */}
-        <Route exact path="/">
+        <Route path="/" exact component={() => <Redirect to="/products" />} />
+        <Route exact path="/products/search">
+          <Banner/>
+          <Products />
+        </Route>
+        <Route exact path="/products">
           <Banner />
           <Products />
-          {/* <HomePage  showAlert={showAlert} /> */}
-          {/* <Alert alert={alert} /> */}
         </Route>
         <Route exact path="/login">
-          {/* <Alert alert={alert} /> */}
           <Login showAlert={showAlert} />
         </Route>
         <Route exact path="/signup">
-          {/* <Alert alert={alert} /> */}
           <SignUp1 showAlert={showAlert} />
         </Route>
         <Route exact path="/forgotPassword">
-          {/* <Alert alert={alert} /> */}
           <ForgotPassword1 showAlert={showAlert} />
         </Route>
         <Route exact path="/viewProfile/:id">
           <EditProfile />
-          {/* <Profile showAlert={showAlert} /> */}
         </Route>
         <Route exact path="/product/upload">
-          <UploadProduct />
-          {/* <AddPost showAlert={showAlert} /> */}
+          <UploadProduct product={false} />
         </Route>
         <Route exact path="/product/:id">
-          {/* <DetailProduct showAlert={showAlert}/> */}
           <DetailProductPage />
         </Route>
-        <Route exact path="/mypost/:id">
-          <MyPosts />
+        <Route exact path="/:id">
+          <MyPosts reservation={false} />
+        </Route>
+        <Route exact path="/myReservations/:id">
+          <MyPosts reservation={true} />
         </Route>
       </Switch>
       <Footer />

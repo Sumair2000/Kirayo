@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {  useSelector } from 'react-redux';
+import { useSelector,useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import decode from "jwt-decode";
 import AppBar from "@mui/material/AppBar";
@@ -9,58 +9,74 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
-import { deepPurple } from '@mui/material/colors';
-import UploadIcon from '@mui/icons-material/Upload';
+import { deepPurple } from "@mui/material/colors";
+import UploadIcon from "@mui/icons-material/Upload";
+import {getProductBySearch} from "../../Actions/products"
+import { Search, SearchIconWrapper, StyledInputBase } from "./styles";
 
-import {Search, SearchIconWrapper, StyledInputBase} from "./styles"
-
-import { Menu,Avatar , IconButton , MenuItem, Divider } from "@mui/material";
-
+import { Menu, Avatar, IconButton, MenuItem, Divider } from "@mui/material";
 
 export default function Navbar() {
 
-  const  userState   = useSelector((state) => state.auth.user); 
-  const [Id,setId] = useState(0);
+  const dispatch = useDispatch();
+  const [resFlag, setresFlag] = useState(false);
+  const [postFlag, setpostFlag] = useState(false);
+  const [rentFlag, setrentFlag] = useState(false);
+
+  const userState = useSelector((state) => state.auth.user);
+  const [searchItem, setsearchItem] = useState("");
+  const [Id, setId] = useState(0);
   const [name, setname] = useState("");
   const [user, setuser] = useState(localStorage.getItem("token"));
   let history = useHistory();
   const location = useLocation();
 
-  const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    history.push("/");
+    setname("");
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-    const handleLogout = () => {
-      localStorage.removeItem("token");
-      history.push("/");
-      setname("");
-    };
-
-
-    useEffect(() => {
-      const token = user;
-      if (token) {
-        const { exp, name, id } = decode(token);
-        setId(id)
-        // setname(name);
-        if (Date.now() >= exp * 1000) {
-          handleLogout();
-        }
+  useEffect(() => {
+    const token = user;
+    if (token) {
+      const { exp, name, id } = decode(token);
+      setId(id);
+      // setname(name);
+      if (Date.now() >= exp * 1000) {
+        handleLogout();
       }
-      setuser(localStorage.getItem("token"));
-    }, [location]);
+    }
+    setuser(localStorage.getItem("token"));
+  }, [location]);
 
-    return (
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="fixed" style={{ backgroundColor: '#475FCB'}}>
-          <Toolbar>
-            <Link to="/" style={{ color: "#475FCB" }}> 
+  const searchPost = () => {
+    if(searchItem.trim()){
+      dispatch(getProductBySearch(searchItem));
+      history.push(`/products/search?searchQuery=${searchItem}`)
+    }else{
+      history.push('/');
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if(e.keyCode === 13)
+    {
+      searchPost();
+    }
+  };
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="fixed" style={{ backgroundColor: "#475FCB"}}>
+        <Toolbar>
+          <Link to="/" style={{ color: "#475FCB" }} onClick={() => {
+            setrentFlag(false);
+            setpostFlag(false);
+            setresFlag(false);
+            setsearchItem("");
+          }}>
             <Typography
               fontFamily="Bubblegum Sans"
               variant="h4"
@@ -69,64 +85,112 @@ export default function Navbar() {
               sx={{ display: { xs: "flex", sm: "block" } }}
               cursor="pointer"
               color="#E6EEF0"
-            > 
+            >
               Kirayo
             </Typography>
-            </Link>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
-            <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { xs: "flex", md: "flex" } }}>
-              {!localStorage.getItem("token") ? (
-                <>
-                    <Link
-                      className="login-link mx-3 my-1"
-                      style={{ color: "#F2F2F2" }}
-                      aria-current="page"
-                      to="/login"
-                    >
-                      LOGIN
-                    </Link>
-                  <Button className="mx-2" style={{color: "#475FCB", backgroundColor: "#F2F2F2" }} variant="contained" >
-                    <Link
-                      className="signup-link"
-                      style={{ color: "#475FCB" }}
-                      to="/signup"
-                    > 
-                      Signup
-                    </Link>
-                  </Button>
-                </>
-              ) : (
-                <>
+          </Link>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              onKeyDown={handleKeyPress}
+              value={searchItem}
+              onChange={(e)=> setsearchItem(e.target.value)}
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
+              
+            />
+          </Search>
+          <Box sx={{ flexGrow: 2 }} />
+          <Box sx={{ display: { xs: "flex", md: "flex" } }}>
+            {!localStorage.getItem("token") ? (
+              <>
                 <Link
-                      className="login-link mx-3 my-3"
-                      style={{ color: "#F2F2F2", textDecoration: "none" }}
-                      aria-current="page"
-                      to={`/mypost/${Id}`}
-                    >
-                      MY POSTS
-                    </Link>
+                  className="login-link"
+                  style={{
+                    color: "#F2F2F2",
+                    marginTop: "0.5rem",
+                    marginRight: "1rem",
+                  }}
+                  aria-current="page"
+                  to="/login"
+                >
+                  LOGIN
+                </Link>
+                <Button
+                  className="mx-2"
+                  style={{ color: "#475FCB", backgroundColor: "#F2F2F2"}}
+                  variant="text"
+                >
+                  <Link
+                    className="signup-link"
+                    style={{ color: "#475FCB" }}
+                    to="/signup"
+                  >
+                    Signup
+                  </Link>
+                </Button>
+                </>
+            ) : (
+              <>
+              <Link
+                  onClick={()=>{
+                    setrentFlag(false);
+                    setpostFlag(false);
+                    setresFlag(true);
+                    setsearchItem("");
+                  }}
+                  className="login-link mx-3 my-3"
+                  style={{ color: "#F2F2F2", textDecoration: resFlag? "" : "none" }}
+                  aria-current="page"
+                  to={`/myReservations/${Id}`}
+                >
+                  MY RESERVATIONS
+                </Link>
+                <Link
+                  onClick={()=>{
+                    setrentFlag(false);
+                    setpostFlag(true);
+                    setresFlag(false);
+                    setsearchItem("");
+                  }}
+                  className="login-link mx-3 my-3"
+                  style={{ color: "#F2F2F2", textDecoration: postFlag? "" : "none" }}
+                  aria-current="page"
+                  to={`/${Id}`}
+                >
+                  MY POSTS
+                </Link>
                 {/* <Button className="mx-4 my-1" variant="contained" style={{color: "#475FCB", backgroundColor: "#F2F2F2" }} > */}
-                    <Link
-                      className="signup-link mx-4 my-3"
-                      style={{ color: "#F2F2F2",textDecoration: "none" }}
-                      aria-current="page"
-                      to="/product/upload"
-                    > 
-                     RENT THINGS?
-                    </Link>
-                  {/* </Button> */}
-                  <Button className="my-2" variant="contained" onClick={handleLogout} style={{color: "#475FCB", backgroundColor: "#F2F2F2", fontWeight: "bold" }} >
-                    Logout
-                  </Button>
+                <Link
+                  onClick={()=>{
+                    setrentFlag(true);
+                    setpostFlag(false);
+                    setresFlag(false);
+                    setsearchItem("");
+                  }}
+                  className="signup-link mx-4 my-3"
+                  style={{ color: "#F2F2F2", textDecoration: rentFlag? "" : "none" }}
+                  aria-current="page"
+                  to="/product/upload"
+                >
+                  RENT THINGS?
+                </Link>
+                {/* </Button> */}
+                <Button
+                  className="my-2"
+                  variant="text"
+                  onClick={handleLogout}
+                  style={{
+                    color: "#475FCB",
+                    backgroundColor: "#F2F2F2",
+                    fontWeight: "bold",
+                    textTransform: "none"
+                  }}
+                >
+                  Logout
+                </Button>
                 {/* <IconButton
                   size="small"
                   aria-label="account of current user"
@@ -149,11 +213,11 @@ export default function Navbar() {
                   <Divider/>
                   <MenuItem onClick={handleLogout} style={{color: "#475FCB"}}>Logout</MenuItem>
                 </Menu> */}
-                </>
-              )}
-            </Box>
-          </Toolbar>
-        </AppBar>
-      </Box>
-    );
-  }
+              </>
+            )}
+          </Box>
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
+}

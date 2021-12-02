@@ -24,14 +24,19 @@ export const Products = () => {
     {
       dispatch(getProducts(page));
     }
-  },[dispatch,page])
+  },[dispatch,page])  
+  if(!products){
+    return(
+      <h4>No product found!</h4>
+    )
+  }
 
   return (
-    <main>
+    <main >
       <Grid
-        className="my-0"
+        className="grid"
         container
-        style={{  boxSizing: "border-box" }}
+        style={{  boxSizing: "border-box"}}
         spacing={4}
       >
         {products?.map((product) => (

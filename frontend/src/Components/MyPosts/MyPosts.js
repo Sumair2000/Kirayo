@@ -4,29 +4,41 @@ import {useSelector} from "react-redux";
 import MyPost from "./MyPost/MyPost";
 import {useDispatch} from "react-redux";
 import { useParams } from 'react-router';
-import {getMyPosts} from "../../Actions/products"
+import {getMyPosts,getMyReservation} from "../../Actions/products"
+import {useLocation} from "react-router-dom"
+import { CircularProgress } from '@material-ui/core';
 
-const MyPosts = () => {
 
+const MyPosts = ({reservation}) => {
+
+  const location = useLocation();
   const products = useSelector((state) => state.products)
 
   const dispatch = useDispatch();
 
   const { id } = useParams();
+  
     useEffect(() => {
-      dispatch(getMyPosts(id));
-    },[dispatch,id])
-
+      if(reservation){
+        dispatch(getMyReservation(id));
+        console.log("reserve");
+      }
+      else{
+        dispatch(getMyPosts(id))
+        console.log("posts")
+      }
+    },[location])
+    
   return (
     <div style={{marginTop: "70px"}}>
-      {products ? 
+      {!products.length ? <h1>No Products...</h1>: (
       <Grid className="my-0"  container style={{ boxSizing:"border-box"}} spacing={4}>
         {products && products.length && products.map((product) => (
           <Grid item key={product.id}  xs={12} sm={6} md={4} lg={3} >
-            <MyPost product={product} />
+            <MyPost product={product} reservation={reservation} />
           </Grid>
         ))}
-      </Grid> : <div><h1>No Posts...</h1></div>}
+      </Grid>)}
     </div>
   )
 }

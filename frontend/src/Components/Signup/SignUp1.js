@@ -42,9 +42,9 @@ export default function SignUp1(props) {
       url: "/auth/googlesignup",
       data: { email: response.email, tokenId: response.tokenId },
     }).then((response) => {
-      props.showAlert("Account Registered successfully", "success");
+      window.alert("Account Registered successfully");
     }).then(err =>{
-      props.showAlert("This account is already registerted", "danger");
+      window.alert("This account is already registerted");
     })
   };
   const responseErrorGoogle = (response) => {
@@ -61,7 +61,6 @@ export default function SignUp1(props) {
   });
   let name, value;
   const handleInputs = (e) => {
-    console.log(e);
     name = e.target.name;
     value = e.target.value;
 
@@ -72,7 +71,7 @@ export default function SignUp1(props) {
     e.preventDefault();
 
     dispatch(
-      signupUser(user,history,props.showAlert));
+      signupUser(user,history));
     
   }
 
@@ -154,7 +153,7 @@ export default function SignUp1(props) {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 5, mb: 2 }}
             >
               Sign Up
             </Button>

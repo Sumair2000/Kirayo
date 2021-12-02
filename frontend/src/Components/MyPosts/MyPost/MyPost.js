@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Card,
   CardHeader,
@@ -9,27 +9,61 @@ import {
   CardActions,
   Button,
 } from "@mui/material";
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { red } from "@mui/material/colors";
 import moment from "moment";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import axios from 'axios';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import axios from "axios";
+import { UploadProduct } from "../../UploadProduct/UploadProduct";
+import { useHistory } from "react-router-dom";
 
-const MyPost = ({product}) => {
+const MyPost = ({ product, reservation }) => {
+  const history = useHistory();
+  const handleEdit = (e) => {
+    e.preventDefault();
+    return <UploadProduct product={product} />;
+  };
 
+  const handleUnreserved = (e) => {
+    e.preventDefault();
+    if(window.confirm("Are you sure you want to unreserved the product?")){
+      axios({
+        method: "delete",
+        url: `/product/reserve/${product._id}`,
+      })
+        .then((res) => {
+          window.alert("Product unreserved successfully.")
+          history.go(0);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }else{
+      history.push('/');
+    }
+   
+  }
   const handleDeleteProduct = (e) => {
     e.preventDefault();
-    console.log(product._id);
-    axios({
-      method: "delete",
-      url: `/product/${product._id}`
-    }).then((res) => {
-      window.alert("Product deleted successfully");
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
+    if(window.confirm("Are you sure you want to delete the product?"))
+    {
+      axios({
+        method: "delete",
+        url: `/product/${product._id}`,
+      })
+        .then((res) => {
+          window.alert("Product deleted successfully");
+          history.go(0);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }else{
+      history.push('/');
+    }
+    
+  };
   return (
     <Card
       sx={{ maxWidth: "100%" }}
@@ -42,14 +76,20 @@ const MyPost = ({product}) => {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {product.userName.charAt(0).toUpperCase()}
+            {product.userName.charAt(0).toUpperCase() || "J"}
           </Avatar>
         }
         title={product.userName}
         subheader={moment(product.createdAt).fromNow()}
       />
-      <img src={`http://localhost:5000/${product.images[0]}`} height="190" width="315.8"/>
-      {/* <CardMedia component="img" height="190" image={product.images[0].replace("mypost/","")} /> */}
+      <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+      <img src={`http://localhost:5000/${product.images[0]}`} style={{height: "190px", maxHeight: "100%", minHeight: "100%", maxWidth: "100%", textAlign: "center"}}/>
+      </div>
+      {/* <CardMedia
+        component="img"
+        height="190"
+        image={product.images[0].replace("mypost/", "")}
+      /> */}
       <CardContent>
         <Typography
           gutterBottom
@@ -65,13 +105,42 @@ const MyPost = ({product}) => {
         >
           Rs {product.price} Per {product.rentType}
         </Typography>
-        <CardActions style={{padding: '0 16px 8px 16px', display: 'flex', justifyContent: 'space-between',marginTop: '10px'}}>
-            <Button size="small"  ><EditIcon color="success" /></Button>
-            <Button size="small" onClick={handleDeleteProduct} ><DeleteIcon color="warning"/></Button>
-        </CardActions>
+        {!reservation ? (
+          <CardActions
+            style={{
+              padding: "0 16px 8px 16px",
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "10px",
+            }}
+          >
+            <Button size="small" onClick={handleEdit}>
+              <EditIcon color="success" />
+            </Button>
+            <Button size="small" onClick={handleDeleteProduct}>
+              <DeleteIcon color="warning" />
+            </Button>
+          </CardActions>
+        ) : (
+          <CardActions
+            style={{justifyContent: "right"}}
+          >
+            <Button
+              size="small"
+              onClick={handleUnreserved}
+              style={{
+                backgroundColor: "red",
+                color: "white",
+                textTransform: "none",
+              }}
+            >
+              Unreserve
+            </Button>
+          </CardActions>
+        )}
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default MyPost
+export default MyPost;

@@ -20,7 +20,7 @@ import Axios from "axios";
 import MuiPhoneNumber from "material-ui-phone-number";
 import decode from "jwt-decode";
 
-export const UploadProduct = (props) => {
+export const UploadProduct = ({product}) => {
 
   const location = useLocation();
   const history = useHistory();
@@ -40,7 +40,7 @@ export const UploadProduct = (props) => {
     localStorage.removeItem("token");
     history.push("/");
     setName("");
-    props.showAlert("Logout Successfully", "success");
+    window.alert("Account logout successfully.")
   };
 
 
@@ -108,7 +108,7 @@ export const UploadProduct = (props) => {
     >
       <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-          <Typography variant="h4">Anything for rent?</Typography>
+          <Typography variant="h4">{product ? "Update your product" :  "Anything for rent?"}</Typography>
         </div>
 
         <FormGroup>

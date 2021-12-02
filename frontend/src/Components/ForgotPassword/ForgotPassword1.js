@@ -45,7 +45,7 @@ export default function ForgotPassword1() {
 
   return (
     <ThemeProvider theme={theme}>
-        <Paper className="paper" style={{marginTop: "100px", marginBottom: "23px", paddingLeft: "10px", paddingRight: "10px"}} elevation={5}>
+        <Paper className="paper" style={{marginTop: "100px", marginBottom: "71px", paddingLeft: "10px", paddingRight: "10px"}} elevation={5}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

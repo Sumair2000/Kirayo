@@ -1,9 +1,10 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import {Link} from "react-router-dom";
 import {Pagination,PaginationItem} from '@material-ui/lab'
 import useStyles from './styles'
 import { useSelector } from 'react-redux';
 // import {getProducts} from "../../Actions/products"
+// import {useDispatch} from "react-redux"
 
 const Paginations = ({page}) => {
 
@@ -25,7 +26,7 @@ const Paginations = ({page}) => {
       variant='outlined'
       color="primary"
       renderItem={(item) => (
-        <PaginationItem {...item} component={Link} to={`/?page=${item.page}`}/>
+        <PaginationItem {...item} component={Link} to={`/products?page=${item.page}`}/>
       )}
     />
   )

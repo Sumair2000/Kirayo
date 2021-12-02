@@ -11,4 +11,9 @@ router.get('/:id', Product.getProduct);
 router.patch('/:id', Product.updateProduct);
 router.delete('/:id', Product.deleteProduct);
 router.get('/getMyPosts/:id',Product.getMyPosts);
+router.get('/getMyReservation/:id',Product.getMyReservation)
+router.delete('/reserve/:id',Product.deleteReservation)
+router.get('/',Product.searchProductByCategory);
+router.get('/search/:id',Product.getProductBySearch);
+
 module.exports = router;

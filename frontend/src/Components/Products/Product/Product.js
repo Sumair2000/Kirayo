@@ -10,14 +10,10 @@ import {
   Button,
 } from "@mui/material";
 import {Link } from "react-router-dom";
-import { Carousel } from "react-responsive-carousel";
 import { red } from "@mui/material/colors";
 import moment from "moment";
-// import { ImageSlider } from "./ImageSlider";
-import  "./styles.css"
 
 export const Product = ({ product }) => {
- 
 
   return (
     <Card
@@ -37,10 +33,12 @@ export const Product = ({ product }) => {
         title={product.userName}
         subheader={moment(product.createdAt).fromNow()}
       />
-      {/* <img src={`http://localhost:5000/${product.images[0]}`}/> */}
+      <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+      <img src={`http://localhost:5000/${product.images[0]}`} style={{height: "190px", maxHeight: "100%", minHeight: "100%", maxWidth: "100%", textAlign: "center"}}/>
+      </div>
       {/* <Carousel autoPlay animation="slide" interval={3000}>
         { product.images.map((image) => ( */}
-            <CardMedia component="img" height="190" image={product.images[0]} />
+            {/* <CardMedia component="img" height="190" image={product.images[0]} /> */}
           {/* ))
         }
       </Carousel> */}

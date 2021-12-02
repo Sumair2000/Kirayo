@@ -90,7 +90,7 @@ exports.register = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (user) return res.status(400).json({success,message: 'The email address you have entered is already associated with another account.'});
-
+        
         const newUser = new User({ ...req.body});
 
         const user_ = await newUser.save();
