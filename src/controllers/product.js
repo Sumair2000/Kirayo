@@ -169,8 +169,15 @@ exports.getProduct = async function (req, res) {
 };
 
 exports.updateProduct = async function (req, res) {
+  const update = req.body;
+  const { id } = req.params;
   try {
-  } catch (error) {}
+    const product = await Product.findByIdAndUpdate(id, {$set: update},{new: true});
+
+    res.status(200).json({success: true});
+  } catch (error) {
+    res.status(400).json({message: error.message});
+  }
 };
 
 exports.deleteProduct = async function (req, res) {

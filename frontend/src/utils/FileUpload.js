@@ -3,8 +3,8 @@ import { DropzoneArea } from "material-ui-dropzone";
 
 import Axios from "axios";
 function FileUpload(props) {
-  const [Images, setImages] = useState([]);
 
+  const [Images, setImages] = useState(props.images || []);
   const onDrop = (files) => {
     let formData = new FormData();
     const config = {
@@ -37,7 +37,7 @@ function FileUpload(props) {
       <DropzoneArea
         onDrop={onDrop}
         multiple={false}
-        maxSize={5000000}
+        maxFileSize={6000000}
         showPreviewsInDropzone={false}
       >
         {({ getRootProps, getInputProps }) => (

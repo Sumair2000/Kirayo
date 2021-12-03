@@ -2,27 +2,28 @@ import React from "react";
 import {
   Card,
   CardHeader,
-  CardMedia,
   CardContent,
   Avatar,
   Typography,
   CardActions,
   Button,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import { red } from "@mui/material/colors";
 import moment from "moment";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
-import { UploadProduct } from "../../UploadProduct/UploadProduct";
 import { useHistory } from "react-router-dom";
 
 const MyPost = ({ product, reservation }) => {
+
   const history = useHistory();
   const handleEdit = (e) => {
     e.preventDefault();
-    return <UploadProduct product={product} />;
+    console.log("tets")
+    history.push(`/product/edit/${product._id}`);
+    
+    
   };
 
   const handleUnreserved = (e) => {
@@ -85,11 +86,6 @@ const MyPost = ({ product, reservation }) => {
       <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
       <img src={`http://localhost:5000/${product.images[0]}`} style={{height: "190px", maxHeight: "100%", minHeight: "100%", maxWidth: "100%", textAlign: "center"}}/>
       </div>
-      {/* <CardMedia
-        component="img"
-        height="190"
-        image={product.images[0].replace("mypost/", "")}
-      /> */}
       <CardContent>
         <Typography
           gutterBottom

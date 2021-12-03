@@ -4,8 +4,7 @@ import { Product } from "./Product/Product";
 import { useDispatch,useSelector } from "react-redux";
 import {  useLocation } from 'react-router-dom';
 import Paginations from "../Pagination/Paginations";
-import { getProducts } from '../../Actions/products'
-import {getUserDetails} from "../../Actions/authAction"
+import { getProducts } from '../../Actions/products';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -19,7 +18,7 @@ export const Products = () => {
 
   const page = query.get('page') || 1;
 
-  useEffect( ()=> {
+  useEffect(() => {
     if(page)
     {
       dispatch(getProducts(page));
@@ -27,7 +26,7 @@ export const Products = () => {
   },[dispatch,page])  
   if(!products){
     return(
-      <h4>No product found!</h4>
+      <></>
     )
   }
 
@@ -40,7 +39,7 @@ export const Products = () => {
         spacing={4}
       >
         {products?.map((product) => (
-          <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
+          <Grid item key={product._id} xs={12} sm={6} md={4} lg={3}>
             <Product product={product} />
           </Grid>
         ))}

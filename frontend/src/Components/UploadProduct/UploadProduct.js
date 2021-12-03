@@ -1,5 +1,5 @@
-import React, { useState,useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 
 import {
   Typography,
@@ -20,11 +20,17 @@ import Axios from "axios";
 import MuiPhoneNumber from "material-ui-phone-number";
 import decode from "jwt-decode";
 
-export const UploadProduct = ({product}) => {
+export const UploadProduct = ({ product }) => {
+  const { id } = useParams();
+  let singleProduct = [];
+  if (product) {
+    singleProduct = product.filter((p) => p._id === id);
+  }
+  console.log(singleProduct);
 
   const location = useLocation();
   const history = useHistory();
-  const [Token_Id, setToken_Id] = useState(localStorage.getItem("token"))
+  const [Token_Id, setToken_Id] = useState(localStorage.getItem("token"));
   const [Title, setTitle] = useState("");
   const [userId, setuserId] = useState(0);
   const [Description, setDescription] = useState("");
@@ -33,31 +39,38 @@ export const UploadProduct = ({product}) => {
   const [perGiven, setperGiven] = useState("");
   const [Phone, setPhone] = useState("");
   const [Address, setAddress] = useState("");
-  const [Name, setName] = useState("")
+  const [Name, setName] = useState("");
   const [Images, setImages] = useState([]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     history.push("/");
     setName("");
-    window.alert("Account logout successfully.")
+    window.alert("Account logout successfully.");
   };
-
 
   useEffect(() => {
     const token = Token_Id;
     if (token) {
       const { exp, name, id } = decode(token);
-      setuserId(id)
+      setuserId(id);
       setName(name);
       if (Date.now() >= exp * 1000) {
         handleLogout();
       }
     }
+    setAddress(singleProduct[0]?.address);
+    setTitle(singleProduct[0]?.title);
+    setPrice(singleProduct[0]?.price);
+    setperGiven(singleProduct[0]?.rentType);
+    setDescription(singleProduct[0]?.description);
+    setCategory(singleProduct[0]?.category);
+    setPhone(singleProduct[0]?.phoneNumber);
+    setImages(singleProduct[0]?.images);
     setToken_Id(localStorage.getItem("token"));
   }, [location]);
-  
-  const updateImages =  (newImages) => {
+
+  const updateImages = (newImages) => {
     setImages(newImages);
   };
   const onSubmit = (event) => {
@@ -90,30 +103,47 @@ export const UploadProduct = ({product}) => {
       phoneNumber: Phone,
       address: Address,
     };
-    Axios.post("/product/uploadProduct", variables).then((response) => {
-      if (response.data.success) {
-        alert("Product Successfully Uploaded");
-        history.push("/");
-      } else {
-        alert("Failed to upload Product");
-      }
-    });
+    if (!product) {
+      Axios.post("/product/uploadProduct", variables).then((response) => {
+        if (response.data.success) {
+          alert("Product Successfully Uploaded");
+          history.push("/");
+        } else {
+          alert("Failed to upload Product");
+        }
+      });
+    } else {
+      console.log(variables);
+      Axios.patch(`/product/update/${id}`,variables)
+      .then((response) => {
+        if(response.data.success) {
+          window.alert("Product update successfully.");
+          history.push("/");
+        }else {
+          window.alert("Failed to update your product.");
+        }
+      })
+    }
   };
 
   return (
-    
     <div
       className="parentDiv"
-      style={{marginTop: "70px", paddingBottom: "10px" }}
+      style={{ marginTop: "70px", paddingBottom: "10px" }}
     >
       <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-          <Typography variant="h4">{product ? "Update your product" :  "Anything for rent?"}</Typography>
+          <Typography variant="h4">
+            {product ? "Update your product" : "Anything for rent?"}
+          </Typography>
         </div>
 
         <FormGroup>
           {/* DropZone */}
-          <FileUpload refreshFunction={updateImages} />
+          <FileUpload
+            refreshFunction={updateImages}
+            images={singleProduct[0]?.images}
+          />
           <br />
           <TextField
             variant="standard"
@@ -146,11 +176,12 @@ export const UploadProduct = ({product}) => {
               labelId="demo-simple-select-label"
               label="CHOOSE CATEGORY"
               name="category"
+              value={Category}
               onChange={(e) => {
                 setCategory(e.target.value);
               }}
               className="input"
-              style={{display: "flex", alignItems: "center"}}
+              style={{ display: "flex", alignItems: "center" }}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -235,7 +266,7 @@ export const UploadProduct = ({product}) => {
             onChange={(e) => setAddress(e.target.value)}
           />
           <Button className="my-3" variant="contained" onClick={onSubmit}>
-            Submit
+            {product ? "Update" : "Submit"}
           </Button>
         </FormGroup>
       </div>

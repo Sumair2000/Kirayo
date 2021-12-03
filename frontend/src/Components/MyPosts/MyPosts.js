@@ -6,7 +6,6 @@ import {useDispatch} from "react-redux";
 import { useParams } from 'react-router';
 import {getMyPosts,getMyReservation} from "../../Actions/products"
 import {useLocation} from "react-router-dom"
-import { CircularProgress } from '@material-ui/core';
 
 
 const MyPosts = ({reservation}) => {

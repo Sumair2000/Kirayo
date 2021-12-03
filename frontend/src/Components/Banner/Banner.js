@@ -1,21 +1,12 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import image from '../../Images/cover.png'
-import {Link} from "react-router-dom"
 import "./Banner.css";
 import { Paper } from "@mui/material";
-import { useDispatch } from 'react-redux';
-import {getProducts} from "../../Actions/products"
 import DynamicPosts from "../DynamicPosts/DynamicPosts";
 
 function Banner() {
 
   let [category, setCategory] = useState();
-  // const dispatch = useDispatch();
-
-  // useEffect(()=> {
-  //   dispatch(getProducts());
-  // },[dispatch])
-
   
   return (
     <div className="bannerParentDiv">

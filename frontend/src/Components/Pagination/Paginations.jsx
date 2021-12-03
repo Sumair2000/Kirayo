@@ -1,23 +1,14 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import {Link} from "react-router-dom";
 import {Pagination,PaginationItem} from '@material-ui/lab'
 import useStyles from './styles'
 import { useSelector } from 'react-redux';
-// import {getProducts} from "../../Actions/products"
-// import {useDispatch} from "react-redux"
 
 const Paginations = ({page}) => {
 
   const {numberOfPages } = useSelector((state) => state.products)
-  // const dispatch = useDispatch();
   const classes = useStyles();
   
-  // useEffect(()=> {
-  //   if(page)
-  //     dispatch(getProducts(page));
-  // },[dispatch,page])
-
-
   return (
     <Pagination 
       classes={{ul: classes.ul}}

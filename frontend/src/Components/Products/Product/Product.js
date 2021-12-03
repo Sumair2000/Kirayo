@@ -2,7 +2,6 @@ import React from "react";
 import {
   Card,
   CardHeader,
-  CardMedia,
   CardContent,
   Avatar,
   Typography,
@@ -34,7 +33,7 @@ export const Product = ({ product }) => {
         subheader={moment(product.createdAt).fromNow()}
       />
       <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-      <img src={`http://localhost:5000/${product.images[0]}`} style={{height: "190px", maxHeight: "100%", minHeight: "100%", maxWidth: "100%", textAlign: "center"}}/>
+      <img src={`http://localhost:5000/${product.images[0]}`} alt="" style={{height: "190px", maxHeight: "100%", minHeight: "100%", maxWidth: "100%", textAlign: "center"}}/>
       </div>
       {/* <Carousel autoPlay animation="slide" interval={3000}>
         { product.images.map((image) => ( */}

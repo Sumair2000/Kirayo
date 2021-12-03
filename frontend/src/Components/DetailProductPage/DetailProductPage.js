@@ -6,7 +6,6 @@ import "./styles.css";
 import { Button } from "@material-ui/core";
 import {useHistory} from "react-router-dom"
 import moment from "moment";
-import { reserved } from "../../Actions/products";
 import decode from "jwt-decode";
 
 export const DetailProductPage = () => {
@@ -95,7 +94,7 @@ export const DetailProductPage = () => {
             justifyContent: "center",
             marginTop: "20px",
           }}
-        >{Product.userId!=UserID &&
+        >{Product.userId!==UserID &&
           <Button
             variant="contained"
             style={{

@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react'
-import {Button,Paper,Typography,TextField,Container,CssBaseline,Avatar,Grid,Box} from "@mui/material";
+import {Paper,Typography,TextField,Container,CssBaseline,Avatar,Box} from "@mui/material";
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails } from '../../Actions/authAction';
@@ -16,7 +16,7 @@ export const EditProfile = () => {
   
   useEffect(() => {
     dispatch(getUserDetails(id))
-  },[])
+  },[id])
 
 
   return (

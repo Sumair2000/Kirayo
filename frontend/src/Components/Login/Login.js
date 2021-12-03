@@ -79,6 +79,7 @@ export default function Login(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(!userInfo.email || !userInfo.password) return window.alert("Please enter all fields.")
     dispatch(loginUser(userInfo, history));
   };
 
