@@ -20,11 +20,9 @@ const MyPosts = ({reservation}) => {
     useEffect(() => {
       if(reservation){
         dispatch(getMyReservation(id));
-        console.log("reserve");
       }
       else{
         dispatch(getMyPosts(id))
-        console.log("posts")
       }
     },[location])
     

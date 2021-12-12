@@ -49,7 +49,6 @@ export default function Login(props) {
 
   let name, value;
   const handleInputs = (e) => {
-    console.log(e);
     name = e.target.name;
     value = e.target.value;
 
@@ -76,10 +75,14 @@ export default function Login(props) {
     console.log(response);
   };
   const history = useHistory();
+  const condition = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(!userInfo.email || !userInfo.password) return window.alert("Please enter all fields.")
+    if(userInfo.password.length<6) return window.alert("Password must atleast 6 characters.")
+    if(!userInfo.email.match(condition)) return window.alert("Please use valid email.") 
+    
     dispatch(loginUser(userInfo, history));
   };
 
@@ -133,6 +136,7 @@ export default function Login(props) {
               autoComplete="current-password"
               value={userInfo.password}
               onChange={handleInputs}
+              helperText={userInfo.password.length < 6 ? "Password must be atleast 6 characters.": ""}
             />
             <Button
               type="submit"

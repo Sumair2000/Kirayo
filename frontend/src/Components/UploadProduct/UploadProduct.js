@@ -26,7 +26,6 @@ export const UploadProduct = ({ product }) => {
   if (product) {
     singleProduct = product.filter((p) => p._id === id);
   }
-  console.log(singleProduct);
 
   const location = useLocation();
   const history = useHistory();
@@ -88,7 +87,7 @@ export const UploadProduct = ({ product }) => {
       !Address ||
       !Images
     ) {
-      return alert("fill all the fields first!");
+      return alert("Please fill all required fields");
     }
 
     const variables = {
@@ -113,7 +112,6 @@ export const UploadProduct = ({ product }) => {
         }
       });
     } else {
-      console.log(variables);
       Axios.patch(`/product/update/${id}`,variables)
       .then((response) => {
         if(response.data.success) {
@@ -168,7 +166,7 @@ export const UploadProduct = ({ product }) => {
             onChange={(e) => setDescription(e.target.value)}
           />
           <br />
-          <FormControl variant="standard" sx={{ m: 0, minWidth: 120 }}>
+          <FormControl variant="standard" sx={{ m: 0, minWidth: 120 }} required>
             <InputLabel id="demo-simple-select-label">
               CHOOSE CATEGORY
             </InputLabel>
@@ -197,6 +195,7 @@ export const UploadProduct = ({ product }) => {
           <MuiPhoneNumber
             className="my-2"
             label="PHONE NUMBER"
+            required
             variant="standard"
             value={Phone}
             defaultCountry={"pk"}
@@ -211,6 +210,7 @@ export const UploadProduct = ({ product }) => {
               <Input
                 id="standard-adornment-amount"
                 required={true}
+                type="number"
                 value={Price}
                 onChange={(e) => {
                   setPrice(e.target.value);
@@ -231,9 +231,10 @@ export const UploadProduct = ({ product }) => {
                 className="my-1"
                 variant="standard"
                 sx={{ m: 2, minWidth: 150 }}
+                required
               >
                 <InputLabel id="demo-simple-select-standard-label">
-                  Rent type
+                  RENT TYPE
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-standard-label"

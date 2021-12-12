@@ -14,11 +14,9 @@ export const loginUser = (user,history) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: data
     })
-    console.log(data.user);
     window.alert("Account login sucessfully");
     history.push('/')
   }catch(err) {
-    console.log(err)
     dispatch({
       type: LOGIN_FAIL
     })
@@ -36,7 +34,6 @@ export const signupUser = (user,history) => async (dispatch) => {
     window.alert("Please verify your email address")
     history.push('/login')
   } catch (err) {
-    console.log(err);
     dispatch({
       type: REGISTER_FAIL
     })
@@ -45,14 +42,12 @@ export const signupUser = (user,history) => async (dispatch) => {
 }
 
 export const getUserDetails = (id) => async (dispatch) => {
-  console.log(id);
   try {
     const { data } = await api.getUserDetails(id);
     dispatch({
       type: DATA_LOADED,
       payload: data 
     })
-    console.log(data);
   } catch (error) {
     console.log(error);
   }

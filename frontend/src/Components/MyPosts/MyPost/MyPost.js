@@ -20,7 +20,6 @@ const MyPost = ({ product, reservation }) => {
   const history = useHistory();
   const handleEdit = (e) => {
     e.preventDefault();
-    console.log("tets")
     history.push(`/product/edit/${product._id}`);
     
     

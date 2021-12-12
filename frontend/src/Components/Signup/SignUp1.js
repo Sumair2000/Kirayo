@@ -34,8 +34,9 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignUp1(props) {
+export default function SignUp1() {
 
+  const history = useHistory();
   const responseSuccessGoogle = (response) => {
     axios({
       method: "POST",
@@ -43,8 +44,10 @@ export default function SignUp1(props) {
       data: { email: response.email, tokenId: response.tokenId },
     }).then((response) => {
       window.alert("Account Registered successfully");
+      history.push('/login')
     }).then(err =>{
       window.alert("This account is already registerted");
+      history.push('/signup')
     })
   };
   const responseErrorGoogle = (response) => {
@@ -52,7 +55,6 @@ export default function SignUp1(props) {
   };
   
   const dispatch = useDispatch();
-  const history = useHistory();
   const [user,setUser] = useState({
     name: "",
     email: "",
@@ -66,10 +68,14 @@ export default function SignUp1(props) {
 
     setUser({...user,[name]: value})
   }
-
+  const nameCondition = /^[a-z]+$/;
+  const condition = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if(!user.email || !user.confirmPassword || !user.password || !user.name) return window.alert("Please fill all required fields.")
+    if(!user.email.match(condition)) return window.alert("Please enter valid email.");
+    if(user.password.length<6 || user.confirmPassword.length<6) return window.alert("Password must be alteast 6 characters.")
+    if(!user.name.match(nameCondition)) return window.alert("Name should not contain numeric and special characters.")
     dispatch(
       signupUser(user,history));
     
@@ -133,6 +139,7 @@ export default function SignUp1(props) {
                   id="password"
                   value={ user.password} 
                   onChange={handleInputs}
+                  helperText={user.password.length < 6 ? "Password must be atleast 6 characters.": ""}
                 />
               </Grid>
               <Grid item xs={12}>

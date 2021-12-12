@@ -33,10 +33,9 @@ export default function ForgotPassword1() {
     })
       .then((res) => {
         window.alert("Resend Email has been sent")
-        history.push('/')
+        history.push('/login')
       })
       .catch((err) => {
-        console.log(err);
         window.alert(
           "Please check your email or account doesn't exist"
         );

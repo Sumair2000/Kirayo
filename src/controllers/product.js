@@ -182,7 +182,6 @@ exports.updateProduct = async function (req, res) {
 
 exports.deleteProduct = async function (req, res) {
   const { id } = req.params;
-  console.log(id);
   try {
     const product = await Product.findByIdAndDelete(id);
     res.status(200).json(product);
@@ -193,10 +192,8 @@ exports.deleteProduct = async function (req, res) {
 
 exports.deleteReservation = async function (req, res) {
   const { id } = req.params;
-  console.log(id);
   try {
     const product = await Reservation.findOneAndDelete(id)
-    console.log(product)
     res.status(200).json(product);
   } catch (err) {
     res.status(404).json({ message: err.message });

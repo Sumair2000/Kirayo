@@ -14,7 +14,6 @@ export default (state = [] , action) => {
     case FETCH_MY_RESERVATION:
       return action.payload
     case FETCH_BY_SEARCH:
-      console.log(action.payload)
       return {
         products: action.payload,
       }

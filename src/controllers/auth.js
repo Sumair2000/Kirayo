@@ -25,11 +25,9 @@ exports.googlesignup = (req,res) => {
                 } else {
                     if(user) {
                         res.status(200).json({message: "This account is already registerted"})
-                        console.log("This account is already registerted");
                     } else {
                         let password = email + process.env.JWT_SECRET;
                         let newUser = new User({email,name,password,isVerified: email_verified, isGoogleAccount: true});
-                        console.log(newUser);
                         newUser.save((err,data) => {
                             if(err){
                                 return res.status(400).json({
