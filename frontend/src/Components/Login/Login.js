@@ -41,19 +41,11 @@ const theme = createTheme();
 
 export default function Login(props) {
 
+  const [emailerror, setemailerror] = useState("");
+  const [passworderror, setpassworderror] = useState("")
   const dispatch = useDispatch();
-  const [userInfo, setuserInfo] = useState({
-    email: "",
-    password: "",
-  });
-
-  let name, value;
-  const handleInputs = (e) => {
-    name = e.target.name;
-    value = e.target.value;
-
-    setuserInfo({ ...userInfo, [name]: value });
-  };
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("")
 
   const responseSuccessGoogle = (response) => {
     axios({
@@ -77,12 +69,30 @@ export default function Login(props) {
   const history = useHistory();
   const condition = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+  const handleEmail = (e) => {
+    const { target: {value}} = e;
+    setemailerror('');
+    setemail(value)
+    let reg = RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(value)
+    if(!reg) {
+      setemailerror("Please use valid email address")
+    }
+  }
+
+  const handlePassword = (e) => {
+    const { target: {value}} = e;
+    setpassworderror('');
+    setpassword(value)
+    if(value.length<6) {
+      setpassworderror("Password must atleast 6 characters")
+    }
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!userInfo.email || !userInfo.password) return window.alert("Please enter all fields.")
-    if(userInfo.password.length<6) return window.alert("Password must atleast 6 characters.")
-    if(!userInfo.email.match(condition)) return window.alert("Please use valid email.") 
-    
+    if(!email || !password) return window.alert("Please enter all fields.")
+    if(password.length<6) return window.alert("Password must atleast 6 characters.")
+    if(!email.match(condition)) return window.alert("Please use valid email.") 
+    const userInfo = {email,password}
     dispatch(loginUser(userInfo, history));
   };
 
@@ -118,11 +128,13 @@ export default function Login(props) {
               fullWidth
               id="email"
               label="Email Address"
+              error={Boolean(emailerror)}
+              helperText={emailerror}
               name="email"
-              value={userInfo.email}
+              value={email}
               autoComplete="email"
               autoFocus
-              onChange={handleInputs}
+              onChange={handleEmail}
             />
             <TextField
               variant="standard"
@@ -134,9 +146,10 @@ export default function Login(props) {
               type="password"
               id="password"
               autoComplete="current-password"
-              value={userInfo.password}
-              onChange={handleInputs}
-              helperText={userInfo.password.length < 6 ? "Password must be atleast 6 characters.": ""}
+              value={password}
+              onChange={handlePassword}
+              error={Boolean(passworderror)}
+              helperText={passworderror}
             />
             <Button
               type="submit"

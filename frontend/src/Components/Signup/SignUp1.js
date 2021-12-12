@@ -55,27 +55,60 @@ export default function SignUp1() {
   };
   
   const dispatch = useDispatch();
-  const [user,setUser] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: ""
-  });
-  let name, value;
-  const handleInputs = (e) => {
-    name = e.target.name;
-    value = e.target.value;
+  const [errors, seterrors] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    name: '',
+  })
+  const [email, setemail] = useState('');
+  const [password, setpassword] = useState('')
+  const [confirmPassword, setconfirmPassword] = useState('');
+  const [name, setname] = useState('');
 
-    setUser({...user,[name]: value})
+  const handleEmail =e => {
+    const { target: {value}} = e;
+    seterrors({email: '', password: '', confirmPassword: '', name: ''});
+    setemail(value)
+    let reg = RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(value)
+    if(!reg) {
+      seterrors({...errors, email: "Please use valid email address"})
+    }
+  }
+  const handlePassword = e => {
+    const { target: {value}} = e;
+    seterrors({email: '', password: '', confirmPassword: '', name: ''});
+    setpassword(value)
+    if(value.length<6) {
+      seterrors({...errors,password: "Password must atleast 6 characters"})
+    }
+  }
+  const handleConfirmPassword = e => {
+    const { target: {value}} = e;
+    seterrors({email: '', password: '', confirmPassword: '', name: ''});
+    setconfirmPassword(value)
+    if(password!==value) {
+      seterrors({...errors,confirmPassword: "Password do not match"})
+    }
+  }
+  const handleName = e => {
+    const { target: {value}} = e;
+    seterrors({email: '', password: '', confirmPassword: '', name: ''});
+    setname(value)
+    let reg = RegExp(/^[a-zA-Z\s]*$/).test(value)
+    if(!reg) {
+      seterrors({...errors,name: "Name should not contain numeric and special characters"})
+    }
   }
   const nameCondition = /^[a-z]+$/;
   const condition = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!user.email || !user.confirmPassword || !user.password || !user.name) return window.alert("Please fill all required fields.")
-    if(!user.email.match(condition)) return window.alert("Please enter valid email.");
-    if(user.password.length<6 || user.confirmPassword.length<6) return window.alert("Password must be alteast 6 characters.")
-    if(!user.name.match(nameCondition)) return window.alert("Name should not contain numeric and special characters.")
+    if(!email || !confirmPassword || !password || !name) return window.alert("Please fill all required fields.")
+    if(!email.match(condition)) return window.alert("Please enter valid email.");
+    if(password.length<6 || confirmPassword.length<6) return window.alert("Password must be alteast 6 characters.")
+    if(!name.match(nameCondition)) return window.alert("Name should not contain numeric and special characters.")
+    const user = {name,email,password,confirmPassword}
     dispatch(
       signupUser(user,history));
     
@@ -111,8 +144,10 @@ export default function SignUp1() {
                   label="Name"
                   name="name"
                   autoComplete="name"
-                  value={ user.name} 
-                  onChange={handleInputs}
+                  value={ name} 
+                  error={Boolean(errors?.name)}
+                  helperText={(errors?.name)}
+                  onChange={handleName}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -124,8 +159,10 @@ export default function SignUp1() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  value={ user.email} 
-                  onChange={handleInputs}
+                  value={ email} 
+                  error={Boolean(errors?.email)}
+                  helperText={(errors?.email)}
+                  onChange={handleEmail}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -137,9 +174,10 @@ export default function SignUp1() {
                   label="Password"
                   type="password"
                   id="password"
-                  value={ user.password} 
-                  onChange={handleInputs}
-                  helperText={user.password.length < 6 ? "Password must be atleast 6 characters.": ""}
+                  value={ password} 
+                  onChange={handlePassword}
+                  error={Boolean(errors?.password)}
+                  helperText={(errors?.password)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -151,8 +189,10 @@ export default function SignUp1() {
                   label="Confirm Password"
                   type="password"
                   id="confirmPassword"
-                  value={ user.confirmPassword} 
-                  onChange={handleInputs}
+                  value={ confirmPassword} 
+                  error={Boolean(errors?.confirmPassword)}
+                  helperText={(errors?.confirmPassword)}
+                  onChange={handleConfirmPassword}
                 />
               </Grid>
             </Grid>
