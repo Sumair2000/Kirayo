@@ -21,11 +21,11 @@ const DynamicPosts = ({ category }) => {
         style={{  boxSizing: "border-box", margin: "0px", width: "100%" }}
         spacing={4}
       >
-        {allProducts? allProducts?.map((product) => (
+        {allProducts && allProducts?.map((product) => (
           <Grid item key={product.id} xs={12} sm={6} md={4} lg={3} >
             <Product product={product} />
           </Grid>
-        )): <h1>No Products Found..</h1>}
+        ))}
       </Grid>
     </>
   );

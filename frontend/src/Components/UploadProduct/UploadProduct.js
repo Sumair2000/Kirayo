@@ -89,6 +89,7 @@ export const UploadProduct = ({ product }) => {
     ) {
       return alert("Please fill all required fields");
     }
+    if(Price<0) return window.alert("Price should not be negative.")
 
     const variables = {
       userId: userId,

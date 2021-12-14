@@ -14,6 +14,7 @@ export const Products = () => {
   
   const dispatch = useDispatch();
   const {products} = useSelector((state) => state.products);
+  const {allProducts} = useSelector((state) => state.products);
   const query = useQuery();
 
   const page = query.get('page') || 1;
@@ -24,14 +25,16 @@ export const Products = () => {
       dispatch(getProducts(page));
     }
   },[dispatch,page])  
-  if(!products){
+  if(!products?.length && !allProducts?.length){
     return(
-      <></>
+      <h4 style={{textAlign: "center"}}>No Products...</h4>
     )
   }
 
   return (
     <main >
+      {products?.length && 
+      <>
       <Grid
         className="grid"
         container
@@ -46,7 +49,7 @@ export const Products = () => {
       </Grid>
       <Paper className="my-2" elevation={2}>
         <Paginations page={page} />
-      </Paper>
+      </Paper></>}
     </main>
   );
 };

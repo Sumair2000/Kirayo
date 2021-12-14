@@ -5,6 +5,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { getProductBySearch } from "../../Actions/products";
 import { Search, SearchIconWrapper, StyledInputBase } from "./styles";
 import decode from "jwt-decode";
+import image from "../../Images/logo2flat.png"
 import {
   AppBar,
   Toolbar,
@@ -35,6 +36,7 @@ const useStyles = makeStyles(() => ({
     color: "#E6EEF0",
     textAlign: "start",
     cursor: "pointer",
+    paddingLeft: 8,
   },
   menuButton: {
     fontFamily: "Open Sans, sans-serif",
@@ -246,9 +248,12 @@ export default function Header() {
           setsearchItem("");
         }}
       >
+        <div style={{display: "flex"}}>
+          <img src={image} alt="kirayo co." style={{height: 40, width: 40}}/>
         <Typography variant="h4" component="h1" className={logo}>
           Kirayo
         </Typography>
+        </div>
       </RouterLink>
       <Search>
         <SearchIconWrapper>

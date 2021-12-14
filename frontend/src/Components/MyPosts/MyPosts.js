@@ -28,7 +28,7 @@ const MyPosts = ({reservation}) => {
     
   return (
     <div style={{marginTop: "70px"}}>
-      {!products.length ? <h1>No Products...</h1>: (
+      {!products.length ? <h4 style={{textAlign: "center"}}>No Products...</h4>: (
       <Grid className="my-0"  container style={{ boxSizing:"border-box"}} spacing={4}>
         {products && products.length && products.map((product) => (
           <Grid item key={product.id}  xs={12} sm={6} md={4} lg={3} >

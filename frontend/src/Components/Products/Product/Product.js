@@ -9,7 +9,7 @@ import {
   Button,
 } from "@mui/material";
 import {Link } from "react-router-dom";
-import { red } from "@mui/material/colors";
+import { red,purple } from "@mui/material/colors";
 import moment from "moment";
 
 export const Product = ({ product }) => {
@@ -25,7 +25,7 @@ export const Product = ({ product }) => {
     >
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar sx={ product.userName.charAt(0).toUpperCase() >='A' && product.userName.charAt(0).toUpperCase() <='O'?{ bgcolor: red[500]} : {bgcolor: purple[500]} } aria-label="recipe">
             {product.userName.charAt(0).toUpperCase()}
           </Avatar>
         }
@@ -56,7 +56,7 @@ export const Product = ({ product }) => {
         >
           Rs {product.price} Per {product.rentType}
         </Typography>
-        <CardActions style={{ marginLeft: "220px" }}>
+        <CardActions style={{ marginLeft: "200px" }}>
           <Link to={`/product/${product._id}`} style={{textDecoration: "none"}}>
             <Button size="small">View</Button>
           </Link>
