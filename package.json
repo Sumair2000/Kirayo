@@ -2,14 +2,14 @@
   "name": "nodejsapi",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
+    "frontend-install": "npm install --prefix frontend",
     "start": "node server.js",
-    "start:dev": "nodemon server.js",
-    "heroku-postbuild": "cd frontend && npm install && npm run build"
-  },
-  "engines": {
-    "node": "14.17.3"
+    "server": "nodemon server.js",
+    "frontend": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run frontend\""
+
   },
   "keywords": [],
   "author": "",
@@ -37,5 +37,8 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
   }
 }

@@ -2,11 +2,10 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://kirayo.herokuapp.com",
+  "proxy": "http://127.0.0.1:5000",
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
-    "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@material-ui/styles": "^4.11.4",
     "@mui/icons-material": "^5.0.5",

@@ -70,7 +70,7 @@ function FileUpload(props) {
           <div onClick={() => onDelete(image)}>
             <img
               style={{ minWidth: "200px", width: "220px", height: "230px" }}
-              src={`https://kirayo.herokuapp.com/${image}`}
+              src={`http://localhost:5000/${image}`}
               alt={`productImg-${index}`}
             />
           </div>
