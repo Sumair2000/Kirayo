@@ -50,6 +50,9 @@ require("./src/middlewares/jwt")(passport);
 
 //=== 4 - CONFIGURE ROUTES
 //Configure Route
+app.get('/',(req,res)=> {
+    res.send("Welcome to Kirayo")
+});
 app.use('/auth', require('./src/routes/auth'));
 app.use('/user', require('./src/middlewares/authenticate'), require('./src/routes/user'));
 app.use('/product',require('./src/routes/product'))
