@@ -1,6 +1,5 @@
 node_modules/**/*
 /node_modules
-/uploads
 .expo/*
 npm-debug.*
 *.jks
@@ -11,4 +10,5 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
+.env
 keys.js/
