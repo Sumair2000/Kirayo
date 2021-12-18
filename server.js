@@ -30,7 +30,7 @@ app.set('view engine', 'jade');
 //=== 2 - SET UP DATABASE
 //Configure mongoose's promise to global promise
 mongoose.promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/kirayo', { 
+mongoose.connect(connUri, { 
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
