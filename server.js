@@ -1,8 +1,8 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
 const passport = require("passport");
 const path = require("path");
 
@@ -15,7 +15,7 @@ let PORT = process.env.PORT || 5000;
 const app = express();
 app.use(passport.initialize());
 app.use(cors());
-
+app.use(express.static(path.join(__dirname, "frontend/build")));
 // for parsing application/json
 app.use(express.json());
 
@@ -24,40 +24,51 @@ app.use(express.urlencoded({ extended: false }));
 //form-urlencoded
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "jade");
 
 //=== 2 - SET UP DATABASE
 //Configure mongoose's promise to global promise
 mongoose.promise = global.Promise;
-mongoose.connect(connUri, { 
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
+mongoose.connect(connUri, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
 });
 
 const connection = mongoose.connection;
-connection.once('open', () => console.log('MongoDB --  database connection established successfully!'));
-connection.on('error', (err) => {
-    console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
-    process.exit();
+connection.once("open", () =>
+  console.log("MongoDB --  database connection established successfully!")
+);
+connection.on("error", (err) => {
+  console.log(
+    "MongoDB connection error. Please make sure MongoDB is running. " + err
+  );
+  process.exit();
 });
 
 //=== 3 - INITIALIZE PASSPORT MIDDLEWARE
 app.use(passport.initialize());
 require("./src/middlewares/jwt")(passport);
 
-
 //=== 4 - CONFIGURE ROUTES
 //Configure Route
-app.get('/',(req,res)=> {
-    res.send("Welcome to Kirayo")
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
 });
-app.use('/auth', require('./src/routes/auth'));
-app.use('/user', require('./src/middlewares/authenticate'), require('./src/routes/user'));
-app.use('/product',require('./src/routes/product'))
-app.use('/uploads', express.static('uploads'));
-
+app.get("/", (req, res) => {
+  res.send("Welcome to Kirayo");
+});
+app.use("/auth", require("./src/routes/auth"));
+app.use(
+  "/user",
+  require("./src/middlewares/authenticate"),
+  require("./src/routes/user")
+);
+app.use("/product", require("./src/routes/product"));
+app.use("/uploads", express.static("uploads"));
 
 //=== 5 - START SERVER
-app.listen(PORT, () => console.log('Server running on http://localhost:'+PORT+'/'));
+app.listen(PORT, () =>
+  console.log("Server running on http://localhost:" + PORT + "/")
+);
