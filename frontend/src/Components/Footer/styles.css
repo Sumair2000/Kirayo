@@ -1,28 +1,63 @@
 .footerParentDiv {
   width: 100%;
+  margin-top: auto;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 .footerParentDiv .content {
   display: flex;
   justify-content: space-between;
-  background: #F2F2F2;
-  padding: 16px;
-  
-  
-}
-.footerParentDiv .content .heading {
-  font-size: 24px;
-  font-weight: bolder;
-}
-
-.footerParentDiv .footer {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px;
   background: #475FCB;
   color: #F2F2F2;
+  padding: 26px;
+  padding-left: 100px;
+  padding-right: 100px;
+  
 }
 
-.footerParentDiv .footer p {
-  margin: 0;
+.footerParentDiv .content .heading {
+  font-size: 18px;
+  font-weight: bolder;
+  text-align: center;
+}
+a
+{
+  text-decoration: none;
+  color: #FFFF;
+
+}
+
+
+ .footer {
+  padding: 10px;
+  background: #e48d41;
+  color: #FFFF;
+  text-align: center;
+}
+
+.logo1{
+  padding-right:  40px;
+}
+
+.contact
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.homeLink
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.list
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

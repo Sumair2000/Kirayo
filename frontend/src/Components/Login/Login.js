@@ -19,23 +19,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Paper } from '@mui/material';
 import "./login.css";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="http://localhost:3000/">
-        Kirayo
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const theme = createTheme();
 
@@ -98,7 +81,7 @@ export default function Login(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Paper className="paper" style={{ margin: "auto" , marginTop: "100px"}} elevation={5}>
+      <Paper className="paper" style={{ margin: "auto" , marginTop: "100px",marginBottom: '40px'}} elevation={2}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -196,7 +179,6 @@ export default function Login(props) {
         </Box>
       </Container>
       </Paper>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
     </ThemeProvider>
   );
 }

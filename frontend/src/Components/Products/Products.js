@@ -47,7 +47,7 @@ export const Products = () => {
           </Grid>
         ))}
       </Grid>
-      <Paper className="my-2" elevation={2}>
+      <Paper className="my-2" elevation={1}>
         <Paginations page={page} />
       </Paper></>}
     </main>

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -19,8 +19,12 @@ import Header from "../Components/Navbar/Header";
 import {useSelector} from "react-redux";
 
 const MainRoute = () => {
-
-
+  const [URL, setURL] = useState(false)
+  useEffect(() => {
+      window.location.href.search("myReservations") > 0? setURL(true) : setURL(false)
+    
+  }, [window.location.href])
+  
   // const dispatch = useDispatch();
 
   // useEffect(()=> {
@@ -33,7 +37,7 @@ const MainRoute = () => {
       <Switch>
         <Route path="/" exact component={() => <Redirect to="/products" />} />
         <Route exact path="/products/search">
-          <Banner/>
+          <Banner />
           <Products />
         </Route>
         <Route exact path="/products">
@@ -68,7 +72,7 @@ const MainRoute = () => {
           <MyPosts reservation={true} />
         </Route>
       </Switch>
-      <Footer />
+      <Footer URL={URL} />
     </Router>
   );
 };

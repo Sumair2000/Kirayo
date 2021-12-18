@@ -21,6 +21,17 @@ export default function ForgotPassword1() {
   
   const history = useHistory();
   const [email, setEmail] = useState("");
+  const [emailerror, setemailerror] = useState()
+
+  const handleEmail = (e) => {
+    const { target: {value}} = e;
+    setemailerror('');
+    setEmail(value)
+    let reg = RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(value)
+    if(!reg) {
+      setemailerror("Please use valid email address")
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,9 +87,9 @@ export default function ForgotPassword1() {
                   autoComplete="email"
                   value={ email} 
                   autoFocus
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
+                  error={Boolean(emailerror)}
+                  helperText={emailerror}
+                  onChange={handleEmail}
                 />
               </Grid>
             </Grid>
@@ -86,7 +97,7 @@ export default function ForgotPassword1() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 2, mb: 1 }}
+              sx={{ mt: 4, mb: 1 }}
             >
               Reset Password
             </Button>

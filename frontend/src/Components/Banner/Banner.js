@@ -7,7 +7,6 @@ import DynamicPosts from "../DynamicPosts/DynamicPosts";
 
 function Banner() {
   let [category, setCategory] = useState();
-
   return (
     <div className="bannerParentDiv">
       <div className="bannerChildDiv">

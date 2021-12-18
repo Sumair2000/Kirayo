@@ -16,6 +16,7 @@ const Paginations = ({page}) => {
       page={Number(page) || 1}
       variant='outlined'
       color="primary"
+      shape='rounded'
       renderItem={(item) => (
         <PaginationItem {...item} component={Link} to={`/products?page=${item.page}`}/>
       )}
