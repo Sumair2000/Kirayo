@@ -8,7 +8,7 @@ const path = require("path");
 
 // Setting up port
 const connUri = process.env.MONGO_LOCAL_CONN_URL;
-// let PORT = process.env.PORT || 5000;
+let PORT = process.env.PORT || 5000;
 
 //=== 1 - CREATE APP
 // Creating express app and configuring middleware needed for authentication
@@ -60,4 +60,4 @@ app.use('/uploads', express.static('uploads'));
 
 
 //=== 5 - START SERVER
-app.listen(process.env.PORT || 5000, () => console.log('Server running on http://localhost:'+PORT+'/'));
+app.listen(PORT, () => console.log('Server running on http://localhost:'+PORT+'/'));
