@@ -2,7 +2,7 @@
   "name": "nodejsapi",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "nodemon server.js"
   },
@@ -32,8 +32,5 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7"
-  },
-  "devDependencies": {
-    "nodemon": "^1.19.4"
   }
 }
