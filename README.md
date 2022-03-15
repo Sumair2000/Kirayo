@@ -77,10 +77,6 @@ PORT=5000
 JWT_SECRET=
 MONGO_LOCAL_CONN_URL=
 
-CLOUD_NAME=
-CLOUD_API_KEY=
-CLOUD_API_SECRET=
-
 SENDGRID_API_KEY=
 FROM_EMAIL=
 
@@ -96,4 +92,57 @@ Finally you are good to go by running the following command in a root directory
 ```bash
   npm run dev
 ```
+
+---
+## Screenshots
+#### Logo
+
+<img src="https://github.com/Sumair2000/Kirayo/blob/main/snaps/logo.jpg" width="128"/>
+
+#### Sign In
+
+<img src="https://github.com/Sumair2000/Kirayo/blob/main/snaps/ss1.jpg" width="80%" height="80%"/>
+
+#### Sign Up
+
+<img src="https://github.com/Sumair2000/Kirayo/blob/main/snaps/ss2.png" width="80%" height="80%"/>
+
+#### Home page without Login
+
+<img src="https://github.com/Sumair2000/Kirayo/blob/main/snaps/ss3.png" width="80%" height="80%"/>
+
+<img src="https://github.com/Sumair2000/Kirayo/blob/main/snaps/ss4.png" width="80%" height="80%"/>
+
+#### Home page with Login
+
+<img src="https://github.com/Sumair2000/Kirayo/blob/main/snaps/ss5.png" width="80%" height="80%"/>
+
+#### Search bar
+
+<img src="https://github.com/Sumair2000/Kirayo/blob/main/snaps/ss6.png" width="80%" height="80%"/>
+
+#### Explore by category
+
+<img src="https://github.com/Sumair2000/Kirayo/blob/main/snaps/ss7.png" width="80%" height="80%"/>
+
+#### Post ad
+
+<img src="https://github.com/Sumair2000/Kirayo/blob/main/snaps/ss8.png" width="80%" height="80%"/>
+
+#### Product details page with reservation button
+
+<img src="https://github.com/Sumair2000/Kirayo/blob/main/snaps/ss9.png" width="80%" height="80%"/>
+
+#### My posts
+
+<img src="https://github.com/Sumair2000/Kirayo/blob/main/snaps/ss10.png" width="80%" height="80%"/>
+
+#### My reservations
+
+<img src="https://github.com/Sumair2000/Kirayo/blob/main/snaps/ss11.png" width="80%" height="80%"/>
+
+
+## License
+
+This project is licensed under the MIT License - click the [LICENSE](https://github.com/Sumair2000/Kirayo/blob/main/LICENSE) for details.
 
