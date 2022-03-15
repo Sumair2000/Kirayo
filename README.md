@@ -142,3 +142,7 @@ Finally you are good to go by running the following command in a root directory
 <img src="https://github.com/Sumair2000/Kirayo/blob/main/snaps/ss11.png" width="80%" height="80%"/>
 
 
+## License
+
+This project is licensed under the MIT License - click the [LICENSE](https://github.com/Sumair2000/Kirayo/blob/main/LICENSE) for details.
+
